@@ -1,0 +1,11 @@
+.navbar-container{
+    @apply h-28 w-full  text-violet-800 flex justify-center items-center flex-col gap-2 text-xl  italic mb-2  ;
+}
+
+.navbar{
+    @apply flex justify-between items-center w-64 text-violet-700;
+}
+
+.nav-link{
+    @apply flex items-center gap-1;
+}

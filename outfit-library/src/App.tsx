@@ -1,14 +1,18 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Favorites from './pages/Favorites'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
-    <div className="min-h-screen bg-purple-100 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-purple-700">
-        Tailwind ÇALIŞIYOR 💜
-      </h1>
-    </div>
-  );
+    <>
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<Favorites />} />
+      </Routes>
+    </>
+  )
 }
 
-
-export default App;
+export default App
