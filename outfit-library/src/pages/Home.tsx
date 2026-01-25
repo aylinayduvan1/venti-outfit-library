@@ -5,27 +5,14 @@ import { categories } from '../data/categories';
 import CategoriesCard from '../components/CategoriesCard';
 import { useEffect, useState } from 'react';
 
-function Home() {
+interface Props {
+   favorites: number[];
+    toggleFavorite: (id:number) => void
+}
+
+function Home({favorites, toggleFavorite}: Props) {
   const [selectedCategory, setSelectedCategory] = useState(999)
-  const [favorites, setFavorites] = useState<number[]>([])
 
-  useEffect(() => {
-    const stored = localStorage.getItem('favorites')
-    if (stored) {
-      setFavorites(JSON.parse(stored))
-    }
-  }, [])
-
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev => {
-      const updated = prev.includes(id)
-        ? prev.filter(favId => favId !== id)
-        : [...prev, id]
-
-      localStorage.setItem('favorites', JSON.stringify(updated))
-      return updated
-    })
-  }
 
   const filteredCombinations =
     selectedCategory === 999
@@ -39,12 +26,25 @@ function Home() {
         selectedCategory={selectedCategory}
         onSelect={setSelectedCategory}
       />
-
-      <OutfitGrid
+      {filteredCombinations.length === 0  ? (
+        <div className="mt-20 flex flex-col items-center text-center text-purple-300">
+          <i className="pi pi-box text-6xl mb-4 opacity-60"></i>
+          <p className="text-lg font-medium">
+            Bu kategoride henüz kombin yok
+          </p>
+          <p className="text-sm opacity-70 mt-1">
+            İlk kombini sen eklemek ister misin?
+          </p>
+        </div>
+      ) : (
+        <OutfitGrid
         items={filteredCombinations}
         favorites={favorites}
         onToggleFavorites={toggleFavorite}
       />
+      )}
+
+      
     </div>
   )
 }
