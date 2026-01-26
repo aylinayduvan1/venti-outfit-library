@@ -9,3 +9,18 @@
 .nav-link{
     @apply flex items-center gap-1;
 }
+
+.fav-badge{
+    @apply absolute
+          -top-1.5
+          -right-20
+          bg-rose-600
+          text-white
+          text-xs
+          w-5
+          h-5
+          flex
+          items-center
+          justify-center
+          rounded-full
+}

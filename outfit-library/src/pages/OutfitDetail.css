@@ -1,0 +1,14 @@
+.back-button{
+    @apply px-6 py-2 rounded-full border border-violet-300 text-violet-700 hover:bg-violet-50 transition;
+}
+
+.detail-fav-button{
+    @apply px-6 py-2 rounded-full bg-violet-900 text-white font-medium hover:bg-violet-800 transition;
+}
+.category-tag{
+    @apply inline-block w-fit px-4 py-1 rounded-full text-sm font-semibold bg-violet-100 text-violet-800;
+}
+
+.detail-img{
+    @apply w-full h-auto object-contain rounded-3xl;
+}
