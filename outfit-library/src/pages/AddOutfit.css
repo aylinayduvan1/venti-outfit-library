@@ -1,0 +1,64 @@
+.add-container {
+  @apply p-6 max-w-5xl mx-auto;
+}
+
+.add-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8 items-start;
+}
+
+/* SOL */
+.add-image-box {
+  @apply w-full;
+}
+
+.add-image {
+  @apply w-full max-h-[500px] object-contain rounded-3xl bg-violet-100;
+}
+
+.add-image-placeholder {
+  @apply w-full h-[400px] flex items-center justify-center
+         rounded-3xl border-2 border-dashed
+         text-violet-400 italic;
+}
+
+/* SAĞ */
+.add-form {
+  @apply flex flex-col gap-4;
+}
+
+.add-input {
+  @apply w-full px-4 py-3 rounded-xl border
+         border-violet-200 focus:outline-none
+         focus:ring-2 focus:ring-violet-500;
+}
+
+.add-input.title {
+  @apply text-lg font-semibold;
+}
+
+.add-textarea {
+  @apply w-full min-h-[120px] px-4 py-3 rounded-xl
+         border border-violet-200 resize-none
+         focus:outline-none focus:ring-2 focus:ring-violet-500;
+}
+
+.add-file {
+  @apply text-sm text-violet-700;
+}
+
+/* BUTONLAR */
+.add-actions {
+  @apply flex gap-4 mt-4;
+}
+
+.btn-primary {
+  @apply px-6 py-2 rounded-full bg-violet-900
+         text-white font-medium hover:bg-violet-800
+         transition;
+}
+
+.btn-secondary {
+  @apply px-6 py-2 rounded-full border
+         border-violet-300 text-violet-700
+         hover:bg-violet-100 transition;
+}

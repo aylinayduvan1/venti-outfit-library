@@ -5,13 +5,16 @@ import App from './App'
 import './index.css'
 import 'primeicons/primeicons.css'
 import { FavoritesProvider } from './context/FavoritesContext'
+import { OutfitProvider } from './context/OutfitContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <FavoritesProvider>
-        <App />
-      </FavoritesProvider>
-    </BrowserRouter>
+    <FavoritesProvider>
+      <OutfitProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </OutfitProvider>
+    </FavoritesProvider>
   </StrictMode>
 )

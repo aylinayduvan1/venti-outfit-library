@@ -1,13 +1,14 @@
 import './Home.css'
 import OutfitGrid from '../components/OutfitGrid';
-import { outfits } from '../data/outfits';
 import { categories } from '../data/categories';
 import CategoriesCard from '../components/CategoriesCard';
-import {useState } from 'react';
+import { useState } from 'react';
+import { useOutfits } from '../context/OutfitContext';
 
 
 function Home() {
   const [selectedCategory, setSelectedCategory] = useState(999)
+  const {outfits} = useOutfits()
 
 
   const filteredCombinations =

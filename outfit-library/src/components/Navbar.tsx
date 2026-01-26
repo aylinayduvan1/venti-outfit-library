@@ -25,6 +25,10 @@ function Navbar() {
 
             <p className="text-base">Favoriler</p>
           </Link>
+          <Link to="/add" className='nav-link'>
+          <i className='pi pi-plus text-base'/>
+            <p className="text-base">Kombin Ekle</p>
+          </Link>
         </nav>
       </div>
   )

@@ -1,12 +1,13 @@
-import { outfits } from "../data/outfits"
 import { useNavigate, useParams } from "react-router-dom"
 import './OutfitDetail.css'
 import { useFavorites } from "../context/FavoritesContext";
+import { useOutfits } from "../context/OutfitContext";
 
 function OutfitDetails() {
     const {id} = useParams();
     const navigate =useNavigate();
     const {isFavorite,toggleFavorite} = useFavorites();
+    const {outfits} = useOutfits()
 
     const outfit = outfits.find(o =>o.id === Number(id));
 
