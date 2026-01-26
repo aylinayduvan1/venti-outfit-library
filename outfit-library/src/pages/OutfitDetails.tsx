@@ -1,23 +1,18 @@
 import { outfits } from "../data/outfits"
 import { useNavigate, useParams } from "react-router-dom"
 import './OutfitDetail.css'
+import { useFavorites } from "../context/FavoritesContext";
 
-interface Props {
-    favorites:number[];
-    onToggleFavorite: (id:number) => void
-}
-
-function OutfitDetails({favorites, onToggleFavorite}:Props) {
+function OutfitDetails() {
     const {id} = useParams();
     const navigate =useNavigate();
+    const {isFavorite,toggleFavorite} = useFavorites();
 
     const outfit = outfits.find(o =>o.id === Number(id));
 
     if(!outfit){
         return <p className="text-purple-400">Kombin bulunamadı</p>
     }
-
-    const isFavorite = favorites.includes(outfit.id);
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -44,8 +39,8 @@ function OutfitDetails({favorites, onToggleFavorite}:Props) {
                 {/* Favori / Aksiyon alanı */}
                 <div className="flex gap-4 mt-4">
                     <button className="detail-fav-button"
-                            onClick={()=>onToggleFavorite(outfit.id)}>
-                            <i className={`pi ${isFavorite ? 'pi-heart-fill' : 'pi-heart'}`}/>
+                            onClick={()=>toggleFavorite(outfit.id)}>
+                            <i className={`pi ${isFavorite(outfit.id) ? 'pi-heart-fill' : 'pi-heart'}`}/>
                     </button>
                     <button className="back-button" onClick={()=> navigate(-1)}>
                         Geri Dön

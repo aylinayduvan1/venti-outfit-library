@@ -1,15 +1,15 @@
+import { useFavorites } from '../context/FavoritesContext';
 import type { Outfit } from '../types/outfit'
 import './OutfitCard.css'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
     outfit: Outfit;
-    isFavorite:boolean;
-    onToggleFavorite: (id:number) => void
 }
-function OutfitCard({outfit, isFavorite,onToggleFavorite}:Props) {
+function OutfitCard({outfit}:Props) {
   const navigate = useNavigate()
-
+  const {toggleFavorite, isFavorite} = useFavorites()
+;
   return (
     <div className="outfit-card-container" 
     onClick={() => navigate(`/outfit/${outfit.id}`)}> 
@@ -21,14 +21,12 @@ function OutfitCard({outfit, isFavorite,onToggleFavorite}:Props) {
          <button
             onClick={(e) => {
                 e.stopPropagation()
-                onToggleFavorite(outfit.id)
+                toggleFavorite(outfit.id)
             }}
             className="favorite-btn"
             >
-            <i
-                className={`pi ${
-                isFavorite ? 'pi-heart-fill favorite-active' : 'pi-heart favorite-passive'
-                }`}
+            <i className={`pi ${
+               isFavorite(outfit.id) ? 'pi-heart-fill favorite-active' : 'pi-heart favorite-passive'}`}
             />
             </button>
     </div> 

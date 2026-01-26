@@ -1,12 +1,9 @@
-import React from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom'
+import { useFavorites } from '../context/FavoritesContext'
 
-interface Props{
-  favorites:number[];
-}
-
-function Navbar({favorites}:Props) {
+function Navbar() {
+  const {favorites} = useFavorites();
   return (
     <div className='navbar-container'>
         <p className='text-2xl font-semibold'>V E N T I : Outfit Kütüphanesi</p>

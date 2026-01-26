@@ -30,8 +30,7 @@ function App() {
     <>
       <Navbar favorites={favorites}/>
       <Routes>
-        <Route path="/" element={<Home favorites={favorites} toggleFavorite={toggleFavorite} />
-} />
+        <Route path="/" element={<Home/>} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path='/outfit/:id' element={<OutfitDetails favorites={favorites} onToggleFavorite={toggleFavorite}/>}/>
       </Routes>

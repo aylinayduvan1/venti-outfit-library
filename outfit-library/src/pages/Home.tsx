@@ -3,14 +3,10 @@ import OutfitGrid from '../components/OutfitGrid';
 import { outfits } from '../data/outfits';
 import { categories } from '../data/categories';
 import CategoriesCard from '../components/CategoriesCard';
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 
-interface Props {
-   favorites: number[];
-    toggleFavorite: (id:number) => void
-}
 
-function Home({favorites, toggleFavorite}: Props) {
+function Home() {
   const [selectedCategory, setSelectedCategory] = useState(999)
 
 
@@ -39,8 +35,6 @@ function Home({favorites, toggleFavorite}: Props) {
       ) : (
         <OutfitGrid
         items={filteredCombinations}
-        favorites={favorites}
-        onToggleFavorites={toggleFavorite}
       />
       )}
 
