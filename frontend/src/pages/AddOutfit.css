@@ -42,8 +42,8 @@
          focus:outline-none focus:ring-2 focus:ring-violet-500;
 }
 
-.add-file {
-  @apply text-sm text-violet-700;
+.custom-upload {
+  @apply relative inline-flex items-center justify-center px-6 py-2 bg-violet-900 text-white font-medium rounded-lg shadow-md cursor-pointer hover:bg-violet-800 transition-all duration-200;
 }
 
 /* BUTONLAR */

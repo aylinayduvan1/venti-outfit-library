@@ -8,7 +8,7 @@ import { useOutfits } from '../context/OutfitContext';
 
 function Home() {
   const [selectedCategory, setSelectedCategory] = useState(999)
-  const {outfits} = useOutfits()
+  const {outfits, loading} = useOutfits()
 
 
   const filteredCombinations =
@@ -23,7 +23,9 @@ function Home() {
         selectedCategory={selectedCategory}
         onSelect={setSelectedCategory}
       />
-      {filteredCombinations.length === 0  ? (
+      {loading ? (
+         <p className="text-center text-purple-500 mt-20">Yükleniyor...</p>
+      ): filteredCombinations.length === 0  ? (
         <div className="mt-20 flex flex-col items-center text-center text-purple-300">
           <i className="pi pi-box text-6xl mb-4 opacity-60"></i>
           <p className="text-lg font-medium">
@@ -37,9 +39,7 @@ function Home() {
         <OutfitGrid
         items={filteredCombinations}
       />
-      )}
-
-      
+      )} 
     </div>
   )
 }

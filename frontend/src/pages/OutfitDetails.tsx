@@ -7,11 +7,14 @@ function OutfitDetails() {
     const {id} = useParams();
     const navigate =useNavigate();
     const {isFavorite,toggleFavorite} = useFavorites();
-    const {outfits} = useOutfits()
+    const {outfits, loading} = useOutfits()
 
-    const outfit = outfits.find(o =>o.id === Number(id));
+    if (loading) return <p>Yükleniyor...</p>;
+
+    const outfit = outfits.find(o => o._id === id);
 
     if(!outfit){
+        debugger
         return <p className="text-purple-400">Kombin bulunamadı</p>
     }
 
@@ -21,7 +24,7 @@ function OutfitDetails() {
         {/* SOL: Görsel */}
             <div className="w-full">
                 <img
-                    src={outfit.image}
+                    src={`http://localhost:4000${outfit.image}`}
                     alt={outfit.title}
                     className="detail-img"
                 />
@@ -40,8 +43,8 @@ function OutfitDetails() {
                 {/* Favori / Aksiyon alanı */}
                 <div className="flex gap-4 mt-4">
                     <button className="detail-fav-button"
-                            onClick={()=>toggleFavorite(outfit.id)}>
-                            <i className={`pi ${isFavorite(outfit.id) ? 'pi-heart-fill' : 'pi-heart'}`}/>
+                            onClick={()=>toggleFavorite(outfit._id)}>
+                            <i className={`pi ${isFavorite(outfit._id) ? 'pi-heart-fill' : 'pi-heart'}`}/>
                     </button>
                     <button className="back-button" onClick={()=> navigate(-1)}>
                         Geri Dön

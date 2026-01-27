@@ -1,17 +1,15 @@
 import { createContext, useEffect, useState, useContext } from 'react'
 
 interface FavoritesContextType {
-  favorites: number[]
-  toggleFavorite: (id: number) => void
-  isFavorite: (id: number) => boolean
+  favorites: string[]
+  toggleFavorite: (id: string) => void
+  isFavorite: (id: string) => boolean
 }
 
-export const FavoritesContext = createContext<FavoritesContextType | undefined>(
-  undefined
-)
+export const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined)
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favorites, setFavorites] = useState<number[]>([])
+  const [favorites, setFavorites] = useState<string[]>([])
 
   useEffect(() => {
     const stored = localStorage.getItem('favorites')
@@ -20,7 +18,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const toggleFavorite = (id: number) => {
+  const toggleFavorite = (id: string) => {
     setFavorites(prev => {
       const updated = prev.includes(id)
         ? prev.filter(favId => favId !== id)
@@ -31,8 +29,8 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
-  const isFavorite = (id: number) => favorites.includes(id)
-
+  const isFavorite = (id: string) => favorites.includes(id)
+  
   return (
     <FavoritesContext.Provider
       value={{ favorites, toggleFavorite, isFavorite }}

@@ -2,7 +2,6 @@
     @apply w-full min-h-screen flex flex-col items-center;
 }
 
-
 .product-numbers{
     @apply text-sm font-medium italic text-purple-300;
 }

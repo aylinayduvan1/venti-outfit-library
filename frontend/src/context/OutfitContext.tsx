@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { outfits as initialOutfits } from '../data/outfits'
 import type { Outfit } from '../types/outfit'
 
 interface OutfitContextType {
   outfits: Outfit[]
+  loading: boolean
   addOutfit: (outfit: Outfit) => void
 }
 
@@ -11,26 +11,40 @@ const OutfitContext = createContext<OutfitContextType | null>(null)
 
 export function OutfitProvider({ children }: { children: React.ReactNode }) {
   const [outfits, setOutfits] = useState<Outfit[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchOutfits = async () => {
+      try {
+        const res = await fetch("http://localhost:4000/outfits")
+        const data: Outfit[] = await res.json()
+        setOutfits(data)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false) // veri geldiğinde loading kapansın
+      }
+    }
 
   useEffect(() => {
-    const stored = localStorage.getItem('outfits')
-    if (stored) {
-      setOutfits(JSON.parse(stored))
-    } else {
-      setOutfits(initialOutfits)
-    }
+    fetchOutfits()
   }, [])
 
-  const addOutfit = (outfit: Outfit) => {
-    setOutfits(prev => {
-      const updated = [outfit, ...prev]
-      localStorage.setItem('outfits', JSON.stringify(updated))
-      return updated
-    })
-  }
+ const addOutfit = async (data: Partial<Outfit>) => {
+    try {
+      const res = await fetch('http://localhost:4000/outfits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const newOutfit = await res.json();
+      setOutfits(prev => [...prev, newOutfit]);
+    } catch (err) {
+      console.error('Add outfit error:', err);
+    }
+  };
 
   return (
-    <OutfitContext.Provider value={{ outfits, addOutfit }}>
+    <OutfitContext.Provider value={{ outfits, addOutfit, loading }}>
       {children}
     </OutfitContext.Provider>
   )

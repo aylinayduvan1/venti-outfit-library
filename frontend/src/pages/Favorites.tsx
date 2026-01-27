@@ -7,7 +7,7 @@ function Favorites() {
   const {outfits} = useOutfits()
 
   const favoriteOutfits = outfits.filter(o =>
-    favorites.includes(o.id)
+    favorites.includes(o._id)
   )
 
   if (favoriteOutfits.length === 0) {

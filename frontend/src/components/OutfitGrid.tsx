@@ -10,7 +10,7 @@ function OutfitGrid({items}: Props) {
   return (
     <div className="grid-container">     
       {items.map(item => (
-        <div key={item.id}>
+        <div key={item._id}>
           <OutfitCard 
             outfit={item}/>
         </div>

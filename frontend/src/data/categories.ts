@@ -19,7 +19,7 @@ export const categories: Category[] = [
     image: "https://images.pexels.com/photos/6893933/pexels-photo-6893933.jpeg",
   },
   {
-    id: 5,
+    id: 3,
     key: "daily",
     label: "Günlük",
     image: "https://images.pexels.com/photos/5604520/pexels-photo-5604520.jpeg",
@@ -31,7 +31,7 @@ export const categories: Category[] = [
     image: "https://images.pexels.com/photos/27573017/pexels-photo-27573017.jpeg",
   },
   {
-    id: 3,
+    id: 5,
     key:'night',
     label: "Gece",
     image: "https://images.pexels.com/photos/19095111/pexels-photo-19095111.jpeg",
