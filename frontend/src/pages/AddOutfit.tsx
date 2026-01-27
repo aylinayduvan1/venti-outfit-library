@@ -2,10 +2,11 @@ import { useState } from "react"
 import "./AddOutfit.css"
 import { useNavigate } from "react-router-dom"
 import { categories } from "../data/categories"
-import axios from "axios"
+import { useOutfits } from "../context/OutfitContext"
 
 function AddOutfit() {
   const navigate = useNavigate()
+  const {addOutfit} = useOutfits()
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -18,24 +19,17 @@ function AddOutfit() {
   }
 
   const handleSubmit = async () => {
-    if (!title || !file) return alert("Başlık ve görsel gerekli!")
+  if (!title || !file) return alert("Başlık ve görsel gerekli!");
 
-    const formData = new FormData()
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('categoryId', categoryId.toString())
-    formData.append('image', file)
+  const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('categoryId', categoryId.toString());
+    formData.append('image', file);
 
-    try {
-      await axios.post('http://localhost:4000/outfits', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
-      navigate('/')
-    } catch (err) {
-      console.error(err)
-      alert('Kombin eklenirken hata oluştu!')
-    }
-  }
+    await addOutfit(formData);
+    navigate('/');
+  };
 
   return (
     <div className="add-container">

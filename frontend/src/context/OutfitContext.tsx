@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { Outfit } from '../types/outfit'
+import axios from "axios"
 
 interface OutfitContextType {
   outfits: Outfit[]
   loading: boolean
-  addOutfit: (outfit: Outfit) => void
+  addOutfit: (formData: FormData) => Promise<void>
 }
 
 const OutfitContext = createContext<OutfitContextType | null>(null)
@@ -29,19 +30,20 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
     fetchOutfits()
   }, [])
 
- const addOutfit = async (data: Partial<Outfit>) => {
-    try {
-      const res = await fetch('http://localhost:4000/outfits', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const newOutfit = await res.json();
-      setOutfits(prev => [...prev, newOutfit]);
-    } catch (err) {
-      console.error('Add outfit error:', err);
-    }
-  };
+const addOutfit = async (formData: FormData) => {
+  try {
+    const res = await axios.post('http://localhost:4000/outfits', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    const newOutfit: Outfit = res.data; // response'u Outfit tipine çevirdim.
+    setOutfits(prev => [...prev, newOutfit]);
+  } catch (err) {
+    console.error('Add outfit error:', err);
+  }
+};
+
+
+
 
   return (
     <OutfitContext.Provider value={{ outfits, addOutfit, loading }}>
