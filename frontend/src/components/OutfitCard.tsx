@@ -12,8 +12,8 @@ function OutfitCard({outfit}:Props) {
 ;
   return (
     <div className="outfit-card-container" 
-    onClick={() => navigate(`/outfit/${outfit._id}`)}> 
-        <div style={{width:'190px', height:'240px'}}>
+          onClick={() => navigate(`/outfit/${outfit._id}`)}> 
+        <div className='w-full' style={{height:'240px'}}>
          <img src={`http://localhost:4000${outfit.image}`} alt="" className="w-full h-full object-cover"/>
         </div>
         <div className='p-2 font-semibold text-violet-900 truncate'>{outfit.title}</div>

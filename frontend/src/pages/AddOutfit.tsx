@@ -3,99 +3,151 @@ import "./AddOutfit.css"
 import { useNavigate } from "react-router-dom"
 import { categories } from "../data/categories"
 import { useOutfits } from "../context/OutfitContext"
+import { Formik, Form, Field, ErrorMessage } from "formik"
+import * as Yup from "yup"
+
+export interface AddOutfitFormValues {
+  title: string
+  description: string
+  categoryId: number
+  image: File | null
+}
+
+
+const OutfitSchema = Yup.object({
+  title: Yup.string()
+    .min(3, "En az 3 karakter")
+    .required("Başlık zorunlu"),
+
+  description: Yup.string()
+    .max(300, "En fazla 300 karakter"),
+
+  categoryId: Yup.number().required(),
+
+  image: Yup.mixed<File>()
+    .required("Görsel zorunlu"),
+})
 
 function AddOutfit() {
   const navigate = useNavigate()
-  const {addOutfit} = useOutfits()
-
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [categoryId, setCategoryId] = useState<number>(1)
-  const [file, setFile] = useState<File | null>(null)
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0]
-    if (selectedFile) setFile(selectedFile)
-  }
-
-  const handleSubmit = async () => {
-  if (!title || !file) return alert("Başlık ve görsel gerekli!");
-
-  const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('categoryId', categoryId.toString());
-    formData.append('image', file);
-
-    await addOutfit(formData);
-    navigate('/');
-  };
+  const { addOutfit } = useOutfits()
+  const [preview, setPreview] = useState<string | null>(null)
 
   return (
-    <div className="add-container">
-      <div className="add-grid">
-        {/* SOL */}
-        <div className="add-image-box">
-          {file ? (
-            <img src={URL.createObjectURL(file)} className="add-image" />
-          ) : (
-            <div className="add-image-placeholder">Görsel seçilmedi</div>
-          )}
-        </div>
+    <Formik
+      initialValues={{
+        title: "",
+        description: "",
+        categoryId: 1,
+        image: null as File | null,
+      }}
+      validationSchema={OutfitSchema}
+      onSubmit={async (values) => {
+        await addOutfit(values)
+        navigate('/')
+      }}
+    >
+      {({ setFieldValue,errors,touched }) => (
+        <Form>
+          <div className="add-container">
+            <div className="add-grid">
 
-        {/* SAĞ */}
-        <div className="add-form">
-          <input
-            type="text"
-            placeholder="Kombin adı"
-            className="add-input title"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
+              {/* SOL */}
+              <div className="add-image-box">
+                {preview ? (
+                  <img src={preview} className="add-image" />
+                ) : (
+                  <div className="add-image-placeholder">
+                    Görsel seçilmedi
+                  </div>
+                )}
+                <ErrorMessage
+                  name="image"
+                  component="div"
+                  className="form-error"
+                />
+              </div>
 
-          <select
-            className="add-input"
-            value={categoryId}
-            onChange={e => setCategoryId(Number(e.target.value))}
-          >
-            {categories
-              .filter(c => c.id !== 999)
-              .map(c => (
-                <option key={c.id} value={c.id}>
-                  {c.label}
-                </option>
-              ))}
-          </select>
+              {/* SAĞ */}
+              <div className="add-form">
+                <div>
+                  <Field
+                  name="title"
+                  placeholder="Kombin adı"
+                  className={`add-input title ${
+                    errors.title && touched.title ? "input-error" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className="form-error"
+                />
 
-          <textarea
-            placeholder="Açıklama"
-            className="add-textarea"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-          />
+                </div>
+                <Field
+                  as="select"
+                  name="categoryId"
+                  className="add-input"
+                >
+                  {categories
+                    .filter(c => c.id !== 999)
+                    .map(c => (
+                      <option key={c.id} value={c.id}>
+                        {c.label}
+                      </option>
+                    ))}
+                </Field>
 
-          <label className="custom-upload">
-           <i className="pi pi-cloud-upload mr-2"/>
-            Fotoğraf Yükle
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </label>
+                <Field
+                  as="textarea"
+                  name="description"
+                  placeholder="Açıklama"
+                  className="add-textarea"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="form-error"
+                />
 
-          <div className="add-actions">
-            <button className="btn-primary" onClick={handleSubmit}>
-              Kaydet
-            </button>
-            <button className="btn-secondary" onClick={() => navigate(-1)}>
-              İptal
-            </button>
+                <label className="custom-upload">
+                  <i className="pi pi-cloud-upload mr-2" />
+                  Fotoğraf Yükle
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.currentTarget.files?.[0] || null
+                      setFieldValue("image", file)
+
+                      if (file) {
+                        setPreview(URL.createObjectURL(file))
+                      }
+                    }}
+                  />
+                </label>
+
+                <div className="add-actions">
+                  <button type="submit" className="btn-primary">
+                    Kaydet
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => navigate(-1)}
+                  >
+                    İptal
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   )
 }
 

@@ -62,3 +62,14 @@
          border-violet-300 text-violet-700
          hover:bg-violet-100 transition;
 }
+
+.form-error{
+  @apply text-rose-800 font-semibold text-xs ;
+}
+
+.input-error{
+  @apply border-rose-800 border-solid border 
+  focus:outline-none focus:ring-2 focus:ring-red-500/30;
+}
+
+
