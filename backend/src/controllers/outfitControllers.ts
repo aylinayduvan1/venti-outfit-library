@@ -43,4 +43,28 @@ export const createOutfit = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteOutfit = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+
+    const deletedOutfit = await Outfit.findByIdAndDelete(id)
+
+    if (!deletedOutfit) {
+      return res.status(404).json({
+        message: 'Outfit bulunamadı',
+      })
+    }
+
+    res.json({
+      success: true,
+      deletedId: id,
+    })
+  } catch (error) {
+    console.error('Delete outfit error:', error)
+    res.status(500).json({
+      message: 'Outfit silinirken hata oluştu',
+    })
+  }
+}
+
 

@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { Outfit } from '../types/outfit'
 import type { OutfitCreateInput } from '../types/outfit-create'
-import {fetchOutfits,createOutfit } from '../services/outfit.service'
+import {fetchOutfits,createOutfit, deleteOutfit as deleteOutfitService} from '../services/outfit.service'
 
 interface OutfitContextType {
   outfits: Outfit[]
   loading: boolean
   addOutfit: (input: OutfitCreateInput) => Promise<void>
+  deleteOutfit: (id: string) => Promise<void>
 }
 
 const OutfitContext = createContext<OutfitContextType | null>(null)
@@ -26,8 +27,13 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
     setOutfits(prev => [...prev, newOutfit])
   }
 
+  const deleteOutfit = async(id:string) =>{
+    await deleteOutfitService(id)
+    setOutfits(prev => prev.filter(o => o._id !== id))
+  }
+
   return (
-    <OutfitContext.Provider value={{ outfits, loading, addOutfit }}>
+    <OutfitContext.Provider value={{ outfits, loading, addOutfit, deleteOutfit }}>
       {children}
     </OutfitContext.Provider>
   )

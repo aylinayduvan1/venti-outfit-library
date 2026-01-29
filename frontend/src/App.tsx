@@ -4,6 +4,7 @@ import Favorites from './pages/Favorites'
 import Navbar from './components/Navbar'
 import OutfitDetails from './pages/OutfitDetails'
 import AddOutfit from './pages/AddOutfit'
+import ShowCase from './pages/ShowCase'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path='/outfit/:id' element={<OutfitDetails/>}/>
         <Route path='/add' element={<AddOutfit/>}/>
+        <Route path='/showcase' element={<ShowCase/>}/>
       </Routes>
     </>
   )

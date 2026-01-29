@@ -29,6 +29,10 @@ function Navbar() {
           <i className='pi pi-plus text-base'/>
             <p className="text-base">Kombin Ekle</p>
           </Link>
+          <Link to="/showcase" className='nav-link'>
+          <i className='pi pi-building text-base'/>
+            <p className="text-base">Vitrinim</p>
+          </Link>
         </nav>
       </div>
   )

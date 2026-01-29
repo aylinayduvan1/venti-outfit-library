@@ -28,3 +28,8 @@ export async function createOutfit(
 
   return res.data
 }
+
+export async function deleteOutfit(id: string): Promise<void>{
+  debugger
+  await axios.delete(`${API_URL}/${id}`)
+}

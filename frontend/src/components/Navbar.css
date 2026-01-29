@@ -3,7 +3,7 @@
 }
 
 .navbar{
-    @apply flex justify-between items-center w-96 text-violet-700;
+    @apply flex justify-between items-center w-auto gap-12 text-violet-700; 
 }
 
 .nav-link{
