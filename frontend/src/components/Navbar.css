@@ -1,19 +1,50 @@
 .navbar-container{
-    @apply h-28 w-full  text-violet-800 flex justify-center items-center flex-col gap-2 text-xl  italic mb-2  ;
+  @apply
+    w-full
+    bg-white
+    text-violet-800
+    flex
+    flex-col
+    items-center
+    gap-3
+    italic
+    mb-2
+    px-4
+    py-3
+   mt-5;
 }
 
 .navbar{
-    @apply flex justify-between items-center w-auto gap-12 text-violet-700; 
+  @apply
+    flex
+    flex-col
+    sm:flex-row
+    items-center
+    gap-4
+    sm:gap-10
+    text-violet-700;
 }
 
+
 .nav-link{
-    @apply flex items-center gap-1;
+  @apply
+    flex
+    items-center
+    gap-3
+    px-4
+    py-2
+    rounded-xl
+    transition
+    hover:bg-violet-50
+    text-sm
+    sm:text-base;
 }
+
 
 .fav-badge{
     @apply absolute
           -top-1.5
-          -right-20
+          -right-24
           bg-rose-600
           text-white
           text-xs
@@ -23,4 +54,14 @@
           items-center
           justify-center
           rounded-full
+}
+.link-name{
+    @apply text-inherit text-center tracking-wide;
+}
+
+@media (max-width: 639px) {
+  .nav-link {
+    width: 100%;
+    justify-content: center;
+  }
 }

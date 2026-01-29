@@ -11,7 +11,7 @@ function OutfitGrid({items}: Props) {
   return (
     <div className="grid-container">     
       {items.map(item => (
-        <div key={item._id}>
+        <div key={item._id} className='flex justify-center'>
           <OutfitCard 
             outfit={item}
               onClick={() => navigate(`/outfit/${item._id}`)}

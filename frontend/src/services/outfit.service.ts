@@ -30,6 +30,5 @@ export async function createOutfit(
 }
 
 export async function deleteOutfit(id: string): Promise<void>{
-  debugger
   await axios.delete(`${API_URL}/${id}`)
 }
