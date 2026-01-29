@@ -46,15 +46,12 @@ export const createOutfit = async (req: Request, res: Response) => {
 export const deleteOutfit = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-
     const deletedOutfit = await Outfit.findByIdAndDelete(id)
-
     if (!deletedOutfit) {
       return res.status(404).json({
         message: 'Outfit bulunamadı',
       })
     }
-
     res.json({
       success: true,
       deletedId: id,
@@ -67,4 +64,35 @@ export const deleteOutfit = async (req: Request, res: Response) => {
   }
 }
 
+export const updateOutfit = async (req: Request, res:Response) => {
+  try{
+    const {id} = req.params
+    const {title, categoryId, description, tag} = req.body
 
+    const updateData: any = {
+      title,
+      description,
+      categoryId,
+      tag
+    }
+
+    if(req.file){
+      updateData.image = `/uploads/${req.file.filename}`
+    }
+
+    const updatedOutfit = await Outfit.findByIdAndUpdate(
+      id,
+      updateData,
+      {new: true}
+    )
+
+    if(!updatedOutfit){
+      return res.status(404).json({message: 'Eksik veri'})
+    }
+
+    res.json(updatedOutfit)
+  }catch(err){
+    res.status(500).json({message: 'Sunucu Hatası', error: err})
+  }
+
+}
