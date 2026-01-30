@@ -1,6 +1,8 @@
 import axios from 'axios'
 import type { Outfit } from '../types/outfit'
 import type { OutfitCreateInput } from '../types/outfit-create'
+import type { OutfitUpdateInput } from '../types/outfit-update'
+import type { OutfitFormValues } from '../components/OutfitForm'
 
 const API_URL = 'http://localhost:4000/outfits'
 
@@ -31,4 +33,27 @@ export async function createOutfit(
 
 export async function deleteOutfit(id: string): Promise<void>{
   await axios.delete(`${API_URL}/${id}`)
+}
+
+export async function updateOutfit(
+  id: string,
+  input: OutfitFormValues
+): Promise<Outfit> {
+  const formData = new FormData()
+
+  formData.append("title", input.title)
+  formData.append("description", input.description)
+  formData.append("categoryId", input.categoryId.toString())
+
+  if (input.image) {
+    formData.append("image", input.image)
+  }
+
+  const res = await axios.put<Outfit>(
+    `${API_URL}/${id}`,
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  )
+
+  return res.data
 }

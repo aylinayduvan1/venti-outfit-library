@@ -88,7 +88,7 @@ function OutfitCard({outfit, onClick, showFavorite = true, showActions = false}:
 
                     <button
                       className=" btn-edit"
-                      onClick={() => navigate(`/outfit/${outfit._id}?edit=true`)}
+                      onClick={() => navigate(`/outfit/${outfit._id}/edit`)}
                     >
                     <i className='pi pi-pen-to-square'/>
                     </button>

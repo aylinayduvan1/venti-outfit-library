@@ -1,0 +1,34 @@
+import { useNavigate, useParams } from 'react-router-dom'
+import { useOutfits } from '../context/OutfitContext'
+import OutfitForm, { type OutfitFormValues } from '../components/OutfitForm'
+
+function EditOutfit() {
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const { outfits, updateOutfit } = useOutfits()
+
+    const outfit = outfits.find(o => o._id == id)
+    
+    if(!outfit){return <p>Yükleniyor..</p>}
+
+     const initialValues: OutfitFormValues = {
+        title: outfit.title,
+        description: outfit?.description ?? '',
+        categoryId: outfit.categoryId,
+        image: null, // edit’te zorunlu değil
+      }
+
+    const handleSubmit= async (values: OutfitFormValues) =>{
+        await updateOutfit(outfit._id, values)
+        navigate(`/outfit/${outfit._id}`)
+      }
+  return (
+    <OutfitForm
+      initialValues={initialValues}
+      submitText="Güncelle"
+      onSubmit={handleSubmit}
+      initialImageUrl={`http://localhost:4000${outfit.image}`}
+    />  )
+}
+
+export default EditOutfit
