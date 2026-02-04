@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import outfitRoutes from "./routes/outfits.routes";
 import path from "path";
+import categoryRoutes from "./routes/categoryRoutes";
+import getTags from './routes/tag.routes'
 
 const app = express();
 const PORT = 4000;
@@ -20,6 +22,9 @@ mongoose.connect(MONGO_URI)
   .catch(err => console.error("MongoDB connection error:", err));
 
 app.use("/outfits", outfitRoutes);
+app.use('/categories', categoryRoutes)
+app.use('/tags', getTags )
+
 
 // Test route
 app.get("/test", (req, res) => res.json({ message: "Backend çalışıyor 🚀" }));

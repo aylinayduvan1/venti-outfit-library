@@ -9,9 +9,10 @@ function AddOutfit() {
   const initialValues: OutfitFormValues = {
     title: "",
     description: "",
-    categoryId: 1,
+    categoryId: "",
     image: null,
-    isPublic: false
+    isPublic: false,
+    tags:[]
   }
 
   const onSubmit = async (values: OutfitFormValues) => {

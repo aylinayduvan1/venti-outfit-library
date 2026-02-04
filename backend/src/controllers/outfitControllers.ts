@@ -1,41 +1,70 @@
 import { Request, Response } from 'express'
 import { Outfit } from '../models/Outfit'
+import { Category } from '../models/Category'
+import { Tags } from '../models/Tags'
 
 export const getOutfits = async (req: Request, res: Response) => {
   try {
-    const outfits = await Outfit.find()
+    const filter: any = {}
+
+    if (req.query.category) {
+      filter.category = req.query.category
+    }
+
+    if (req.query.public) {
+      filter.isPublic = true
+    }
+
+    const outfits = await Outfit.find(filter)
+      .populate('category')
+      .populate('tags')
+      .sort({ createdAt: -1 })
+
     res.json(outfits)
   } catch (err) {
     res.status(500).json({ error: 'Veriler alınamadı' })
   }
 }
 
+function generateSlug(name: string) {
+  return name.toLowerCase().replace(/\s+/g, '-'); 
+}
+
 export const createOutfit = async (req: Request, res: Response) => {
   try {
-    const { title, description, categoryId, tags, isPublic, ownerId } = req.body;
+    const { title, description, category, tags, isPublic, ownerId } = req.body;
     if (!req.file) return res.status(400).json({ message: "Görsel gerekli" });
 
-    // categoryId'ye göre category stringini belirle
-    const categoriesMap: { [key: number]: string } = {
-      1: 'school',
-      2: 'office',
-      3: 'daily',
-      4: 'sport',
-      5: 'night'
-    };
+    const categoryExists = await Category.findById(category)
+      if (!categoryExists) {
+        return res.status(400).json({ message: 'Geçersiz kategori' })
+    }
 
-    const category = categoriesMap[Number(categoryId)];
-    if (!category) return res.status(400).json({ message: "Geçersiz categoryId" });
+ const parsedTags: { id: string; name: string }[] = tags ? JSON.parse(tags) : [];
+
+    const tagIds: string[] = [];
+
+    for (const tag of parsedTags) {
+    const isValidId = /^[0-9a-fA-F]{24}$/.test(tag.id);
+    if (isValidId) {
+      tagIds.push(tag.id);
+      } else {
+        const newTag = await Tags.create({
+          name: tag.name,
+          slug: generateSlug(tag.name),
+        });
+        tagIds.push(newTag._id.toString());
+      }
+    }
 
     const newOutfit = new Outfit({
       title,
       description,
       category,
-      categoryId: Number(categoryId),
-      tags: tags ? JSON.parse(tags) : [],
+      tags: tagIds,
       image: `/uploads/${req.file.filename}`,
       isPublic: isPublic === 'true',
-      ownerId: 'aylin123' // 👈 geçici
+      ownerId: 'aylin123' //  geçici
     });
 
     const saved = await newOutfit.save();
@@ -69,27 +98,21 @@ export const deleteOutfit = async (req: Request, res: Response) => {
 export const updateOutfit = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const { title, description, categoryId, isPublic } = req.body
-
-    const categoriesMap: Record<number, string> = {
-      1: 'school',
-      2: 'office',
-      3: 'daily',
-      4: 'sport',
-      5: 'night',
-    }
-
-    const category = categoriesMap[Number(categoryId)]
-    if (!category) {
-      return res.status(400).json({ message: 'Geçersiz categoryId' })
-    }
+    const { title, description, category, tags ,isPublic } = req.body
 
     const updateData: any = {
       title,
       description,
-      categoryId: Number(categoryId),
-      category, // 👈 ZORUNLU
+      tags: tags ? JSON.parse(tags) : [], 
       isPublic: isPublic === 'true',
+    }
+
+    if (category) {
+      const categoryExists = await Category.findById(category)
+      if (!categoryExists) {
+        return res.status(400).json({ message: 'Geçersiz kategori' })
+      }
+      updateData.category = category
     }
 
     if (req.file) {
@@ -100,7 +123,10 @@ export const updateOutfit = async (req: Request, res: Response) => {
       id,
       updateData,
       { new: true }
-    )
+    ) 
+    .populate('category')
+    .populate('tags')
+    .sort({ createdAt: -1 })
 
     if (!updatedOutfit) {
       return res.status(404).json({ message: 'Outfit bulunamadı' })
@@ -109,20 +135,22 @@ export const updateOutfit = async (req: Request, res: Response) => {
     res.json(updatedOutfit)
   } catch (err) {
     res.status(500).json({ message: 'Sunucu hatası', error: err })
-  }
+  } 
 }
 
-  export const getMyOutfits = async (req: Request, res:Response) => {
+export const getMyOutfits = async (req: Request, res:Response) => {
     try {
       // ŞİMDİLİK FAKE USER
       const ownerId = 'aylin123'
 
-      const outfits = await Outfit.find({
-        ownerId
-      }).sort({ createdAt: -1 })
+      const outfits = await Outfit.find({ ownerId })
+      .populate('category')
+      .populate('tags')
+      .sort({ createdAt: -1 })
 
       res.json(outfits)
     } catch (error) {
       res.status(500).json({ message: 'Failed to fetch my outfits' })
     }
 }
+

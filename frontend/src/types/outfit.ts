@@ -1,13 +1,13 @@
-export type OutfitCategory = 'office' | 'school' | 'daily'| 'sport' | 'night';
+import type { Category } from "./categories"
+import type { Tag } from "./tag"
 
 export interface Outfit {
-  _id: string;
-  title: string;
-  description?: string;   // ✅ opsiyonel
-  category: OutfitCategory;
-  categoryId: number;
-  image: string;
-  tags?: string[];
-  createdAt?: string;
+  _id: string
+  title: string
+  description?: string
+  image: string
+  tags?: Tag[]
   isPublic: boolean
+  ownerId: string
+  category: Category
 }

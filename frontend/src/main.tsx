@@ -6,15 +6,22 @@ import './index.css'
 import 'primeicons/primeicons.css'
 import { FavoritesProvider } from './context/FavoritesContext'
 import { OutfitProvider } from './context/OutfitContext'
+import { CategoryProvider } from './context/CategoryContext'
+import { TagProvider } from './context/TagContext'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  //<StrictMode>
+  <BrowserRouter>
     <FavoritesProvider>
-      <OutfitProvider>
-        <BrowserRouter>
+      <TagProvider>
+      <CategoryProvider>
+        <OutfitProvider>
           <App />
-        </BrowserRouter>
-      </OutfitProvider>
+        </OutfitProvider>
+      </CategoryProvider>
+      </TagProvider>
     </FavoritesProvider>
-  </StrictMode>
+  </BrowserRouter>
+//</StrictMode>
+
 )

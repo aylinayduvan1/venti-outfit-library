@@ -3,8 +3,8 @@ import './CategoriesCard.css'
 
 interface Props {
   categories: Category[]
-  selectedCategory: number
-  onSelect: (id: number) => void
+  selectedCategory: string | null
+  onSelect: (id: string) => void
 }
 
 function CategoriesCard({ categories, selectedCategory, onSelect }: Props) {
@@ -12,12 +12,12 @@ function CategoriesCard({ categories, selectedCategory, onSelect }: Props) {
     <div className="w-full overflow-x-auto scrollbar-hide">
       <div className="flex justify-center gap-4 min-w-max py-2">
         {categories.map(category => {
-          const isActive = category.id === selectedCategory
+          const isActive = category._id === selectedCategory
 
           return (
             <div
-              key={category.id}
-              onClick={() => onSelect(category.id)}
+              key={category._id}
+              onClick={() => onSelect(category._id)}
               className={`
                 img-container
                 snap-start
@@ -31,12 +31,12 @@ function CategoriesCard({ categories, selectedCategory, onSelect }: Props) {
               <img
                 src={category.image}
                 className="img"
-                alt={category.label}
+                alt={category.name}
               />
 
               <div className="cat-subtitle-container">
                 <span className="cat-subtitle-content">
-                  {category.label}
+                  {category.name}
                 </span>
               </div>
             </div>

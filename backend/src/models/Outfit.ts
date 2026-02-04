@@ -1,19 +1,15 @@
-import mongoose, { Schema } from 'mongoose'
-
-export type OutfitCategory =
-  | 'office'
-  | 'school'
-  | 'daily'
-  | 'sport'
-  | 'night'
+import mongoose, { Schema, Types } from 'mongoose'
 
 export interface IOutfit {
   title: string
   description?: string
-  category: OutfitCategory
-  categoryId: number
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
+  }
   image: string
-  tags?: string[]
+  tags: Types.ObjectId[]
   ownerId: string
   isPublic: boolean
 }
@@ -23,13 +19,12 @@ const OutfitSchema = new Schema<IOutfit>(
     title: { type: String, required: true },
     description: String,
     category: {
-      type: String,
-      enum: ['office', 'school', 'daily', 'sport', 'night'],
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
       required: true
     },
-    categoryId: { type: Number, required: true },
     image: { type: String, required: true },
-    tags: [String],
+    tags: [{type: Schema.Types.ObjectId, ref:'Tag'}],
     ownerId: { type: String, required: true },
     isPublic: { type: Boolean, default: false }
   },

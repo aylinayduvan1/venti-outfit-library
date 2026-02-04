@@ -1,11 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import './OutfitDetail.css'
 import { useFavorites } from "../context/FavoritesContext";
 import { useOutfits } from "../context/OutfitContext";
 
 function OutfitDetails() {
     const {id} = useParams();
-    const navigate =useNavigate();
     const {isFavorite,toggleFavorite} = useFavorites();
     const {outfits, loading} = useOutfits()
 
@@ -14,7 +13,6 @@ function OutfitDetails() {
     const outfit = outfits.find(o => o._id === id);
 
     if(!outfit){
-        debugger
         return <p className="text-purple-400">Kombin bulunamadı</p>
     }
 
@@ -37,20 +35,22 @@ function OutfitDetails() {
                                         <i className='pi pi-lock-open'/>
                                     )}
                 </h1>
-                <span className="category-tag">
-                    #{outfit.category}
-                </span>
+                <div className="flex gap-2">
+                    {(outfit.tags ?? []).map(tag => (
+                        <span key={tag._id} className="category-tag">
+                        #{tag.name}
+                        </span>
+                    ))}
+                </div>
+
                 <p className="text-violet-700 leading-relaxed">
-                    Bu kombin günlük kullanım için ideal. Şık ama rahat bir görünüm sunar.Sonradan dinamik yapı ile dinamik yapılacaktır.
+                    {outfit.description}
                 </p>
                 {/* Favori / Aksiyon alanı */}
                 <div className="flex gap-4 mt-4">
                     <button className="detail-fav-button"
                             onClick={()=>toggleFavorite(outfit._id)}>
                             <i className={`pi ${isFavorite(outfit._id) ? 'pi-heart-fill' : 'pi-heart'}`}/>
-                    </button>
-                    <button className="back-button" onClick={()=> navigate(-1)}>
-                        Geri Dön
                     </button>
                 </div>
             </div>

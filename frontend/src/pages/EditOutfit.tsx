@@ -1,6 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useOutfits } from '../context/OutfitContext'
 import OutfitForm, { type OutfitFormValues } from '../components/OutfitForm'
+import { useEffect } from 'react'
+import { fetchTags } from '../services/tag.service'
 
 function EditOutfit() {
     const { id } = useParams()
@@ -11,12 +13,19 @@ function EditOutfit() {
     
     if(!outfit){return <p>Yükleniyor..</p>}
 
+    const categoryId =
+    typeof outfit.category === 'string'
+      ? outfit.category
+      : outfit.category?._id ?? ''
+
+
      const initialValues: OutfitFormValues = {
         title: outfit.title,
         description: outfit?.description ?? '',
-        categoryId: outfit.categoryId,
+        categoryId,
         image: null, // edit’te zorunlu değil
-        isPublic: outfit.isPublic
+        isPublic: outfit.isPublic,
+        tags: outfit.tags ? outfit.tags.map(t => t._id) : []
       }
 
     const handleSubmit= async (values: OutfitFormValues) =>{

@@ -1,36 +1,49 @@
 import './Home.css'
-import OutfitGrid from '../components/OutfitGrid';
-import { categories } from '../data/categories';
-import CategoriesCard from '../components/CategoriesCard';
-import { useState } from 'react';
-import { useOutfits } from '../context/OutfitContext';
+import OutfitGrid from '../components/OutfitGrid'
+import CategoriesCard from '../components/CategoriesCard'
+import { useEffect, useState } from 'react'
+import { useOutfits } from '../context/OutfitContext'
+import { useCategories } from '../context/CategoryContext'
 
 function Home() {
-  const [selectedCategory, setSelectedCategory] = useState(999)
-  const { outfits, loading } = useOutfits()
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('999') // Hepsi varsayılan
 
-  const publicOutfits = outfits.filter(o => o.isPublic)
+  const { outfits, fetchPublicOutfits } = useOutfits()
+  const { categories, loading: categoriesLoading } = useCategories()
 
-  const filteredCombinations =
-    selectedCategory === 999
-      ? publicOutfits
-      : publicOutfits.filter(
-          item => item.categoryId === selectedCategory
-        )
+  const allCategories = [
+    { _id: '999', 
+      name: 'Hepsi', 
+      image:'https://images.pexels.com/photos/3315286/pexels-photo-3315286.jpeg',
+      slug:'' }, 
+    ...categories
+  ]
+
+  useEffect(() => {
+  if (selectedCategoryId === '999') {
+    fetchPublicOutfits(null)
+  } else {
+    fetchPublicOutfits(selectedCategoryId)
+  }
+}, [selectedCategoryId])
+
+  if (categoriesLoading) {
+    return <p className="text-center mt-20">Kategoriler yükleniyor…</p>
+  }
 
   return (
     <div className="home-container">
       <CategoriesCard
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelect={setSelectedCategory}
+        categories={allCategories}
+        selectedCategory={selectedCategoryId}
+        onSelect={setSelectedCategoryId}
       />
 
-      {loading ? (
+      {categoriesLoading ? (
         <p className="text-center text-purple-500 mt-20">
           Yükleniyor...
         </p>
-      ) : filteredCombinations.length === 0 ? (
+      ) : outfits.length === 0 ? (
         <div className="mt-20 flex flex-col items-center text-center text-purple-300">
           <i className="pi pi-box text-6xl mb-4 opacity-60"></i>
           <p className="text-lg font-medium">
@@ -41,11 +54,10 @@ function Home() {
           </p>
         </div>
       ) : (
-        <OutfitGrid items={filteredCombinations} />
+        <OutfitGrid items={outfits} />
       )}
     </div>
   )
 }
-
 
 export default Home

@@ -3,9 +3,10 @@ import type { Outfit } from '../types/outfit'
 import type { OutfitCreateInput } from '../types/outfit-create'
 import {fetchOutfits,
         createOutfit, 
+        getMyOutfitsService,
         deleteOutfit as deleteOutfitService,
         updateOutfit as updateOutfitService, 
-        getMyOutfitsService} 
+        fetchPublicOutfits as fetchPublicOutfitsService} 
   from '../services/outfit.service'
 import type { OutfitFormValues } from '../components/OutfitForm'
 
@@ -16,6 +17,7 @@ interface OutfitContextType {
   addOutfit: (input: OutfitCreateInput) => Promise<void>
   deleteOutfit: (id: string) => Promise<void>
   updateOutfit: (id: string, input: OutfitFormValues) => Promise<void>
+  fetchPublicOutfits: (categoryId: string | null) => Promise<void>
 }
 
 const OutfitContext = createContext<OutfitContextType | null>(null)
@@ -40,22 +42,29 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
     setOutfits(prev => prev.filter(o => o._id !== id))
   }
 
-const updateOutfit = async (id: string, input: OutfitFormValues) => {
-  const updated = await updateOutfitService(id, input)
+  const updateOutfit = async (id: string, input: OutfitFormValues) => {
+    const updated = await updateOutfitService(id, input)
 
-  setOutfits(prev =>
-    prev.map(o => (o._id === id ? updated : o))
-  )
-}
+    setOutfits(prev =>
+      prev.map(o => (o._id === id ? updated : o))
+    )
+  }
 
-const getMyOutfits = async () =>{
-  const data = await getMyOutfitsService()
+  const getMyOutfits = async () =>{
+    const data = await getMyOutfitsService()
+    setOutfits(data)
+  }
+
+const fetchPublicOutfits = async (categoryId: string | null) => {
+  setLoading(true)
+  const data = await fetchPublicOutfitsService(categoryId)
   setOutfits(data)
+  setLoading(false)
 }
 
 
   return (
-    <OutfitContext.Provider value={{ outfits, loading, addOutfit, deleteOutfit, updateOutfit, getMyOutfits }}>
+    <OutfitContext.Provider value={{ outfits, loading, addOutfit, deleteOutfit, updateOutfit, getMyOutfits, fetchPublicOutfits }}>
       {children}
     </OutfitContext.Provider>
   )

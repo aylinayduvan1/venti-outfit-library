@@ -1,7 +1,8 @@
 export interface OutfitCreateInput {
   title: string
   description?: string
-  categoryId: number
+  categoryId: string
+  tags: string[]
   image: File | null  
   isPublic:boolean
   ownerId:string 

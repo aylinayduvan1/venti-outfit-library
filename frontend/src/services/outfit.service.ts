@@ -17,8 +17,9 @@ export async function createOutfit(
 
   formData.append('title', input.title)
   formData.append('description', input.description ?? '')
-  formData.append('categoryId', input.categoryId.toString())
+  formData.append('category', input.categoryId)
   formData.append('isPublic', String(input.isPublic))
+  formData.append('tags', JSON.stringify(input.tags))
 
 
   if (input.image) {
@@ -44,8 +45,10 @@ export async function updateOutfit(
 
   formData.append("title", input.title)
   formData.append("description", input.description)
-  formData.append("categoryId", input.categoryId.toString())
+  formData.append("category", input.categoryId)
   formData.append('isPublic', String(input.isPublic))
+  formData.append('tags', JSON.stringify(input.tags))
+
 
 
   if (input.image) {
@@ -65,3 +68,17 @@ export async function getMyOutfitsService(): Promise<Outfit[]> {
   const res = await axios.get<Outfit[]>(API_URL)
   return res.data
 }
+
+export async function fetchPublicOutfits(
+  categoryId: string | null
+): Promise<Outfit[]> {
+  let url = `${API_URL}?public=true`
+
+  if (categoryId && categoryId !== '999') {
+    url += `&category=${categoryId}`
+  }
+
+  const res = await axios.get<Outfit[]>(url)
+  return res.data
+}
+

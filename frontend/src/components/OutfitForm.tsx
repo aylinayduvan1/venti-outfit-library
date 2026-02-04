@@ -1,22 +1,25 @@
-import { useState } from "react"
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import * as Yup from "yup"
-import { categories } from "../data/categories"
-import "./OutfitForm.css"
+import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "./OutfitForm.css";
+import { useCategories } from "../context/CategoryContext";
+import { useTags } from "../context/TagContext";
+import CreatableSelect from "react-select/creatable";
+
 
 export interface OutfitFormValues {
-  title: string
-  description: string
-  categoryId: number
-  image: File | null
-  isPublic: boolean
-}
+  title: string;
+  description: string;
+  categoryId: string;
+  image: File | null;
+  isPublic: boolean;
+ tags: { id: string; name: string }[];}
 
 interface Props {
-  initialValues: OutfitFormValues
-  onSubmit: (values: OutfitFormValues) => Promise<void>
-  submitText?: string
-  initialImageUrl?: string
+  initialValues: OutfitFormValues;
+  onSubmit: (values: OutfitFormValues) => Promise<void>;
+  submitText?: string;
+  initialImageUrl?: string;
 }
 
 const OutfitSchema = Yup.object({
@@ -24,13 +27,16 @@ const OutfitSchema = Yup.object({
     .min(3, "En az 3 karakter")
     .required("Başlık zorunlu"),
 
-  description: Yup.string()
-    .max(300, "En fazla 300 karakter"),
+  description: Yup.string().max(300, "En fazla 300 karakter"),
 
-  categoryId: Yup.number().required(),
+  categoryId: Yup.string().required("Kategori seçmek zorunlu"),
+
+  tags: Yup.array()
+  .min(1, "En az 1 tag seçiniz.")
+  .required("Tag seçiniz."),
 
   image: Yup.mixed<File>().nullable(),
-})
+});
 
 function OutfitForm({
   initialValues,
@@ -40,7 +46,10 @@ function OutfitForm({
 }: Props) {
   const [preview, setPreview] = useState<string | null>(
     initialImageUrl || null
-  )
+  );
+
+  const { categories } = useCategories();
+  const { tags } = useTags(); // Tags context
 
   return (
     <Formik
@@ -89,14 +98,44 @@ function OutfitForm({
                 </div>
 
                 <Field as="select" name="categoryId" className="add-input">
-                  {categories
-                    .filter(c => c.id !== 999)
-                    .map(c => (
-                      <option key={c.id} value={c.id}>
-                        {c.label}
-                      </option>
-                    ))}
+                  <option value="">Kategori seç</option>
+                  {categories.map(c => (
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
+                  ))}
                 </Field>
+                <ErrorMessage
+                  name="categoryId"
+                  component="div"
+                  className="form-error"
+                />
+
+                {/* TAGS MULTI SELECT */}
+                <CreatableSelect
+                  isMulti
+                  options={tags.map(tag => ({ value: tag._id, label: tag.name }))}
+                  value={values.tags.map(t => ({ value: t.id, label: t.name }))}
+                  onChange={(selectedOptions) => {
+                    const newTags = selectedOptions?.map(option => ({
+                      id: option?.value || '',  // eğer yoksa yeni tag
+                      name: option?.label || ''
+                    })) || [];
+                    setFieldValue('tags', newTags);
+                  }}
+                  placeholder="Tag seç veya ekle"
+                  styles={{ 
+                  control: (provided, state) => ({ 
+                    ...provided, 
+                    borderRadius: '0.75rem', 
+                    padding:'0.50rem', 
+                    borderColor: state.isFocused ? '#ddd6fe' : '#ddd6fe', 
+                    boxShadow: state.isFocused ? '0 0 0 2px rgba(139 ,92 ,246)' : 'none', 
+                    '&:hover': { borderColor: '#fffff',
+                    },}),
+                  }}
+                  />
+                                                     
 
                 <Field
                   as="textarea"
@@ -118,27 +157,26 @@ function OutfitForm({
                     accept="image/*"
                     className="hidden"
                     onChange={(e) => {
-                      const file = e.currentTarget.files?.[0] || null
-                      setFieldValue("image", file)
-
+                      const file = e.currentTarget.files?.[0] || null;
+                      setFieldValue("image", file);
                       if (file) {
-                        setPreview(URL.createObjectURL(file))
+                        setPreview(URL.createObjectURL(file));
                       }
                     }}
                   />
                 </label>
-                <label className="flex items-center gap-2 text-sm">
 
-                <input
-                  type="checkbox"
-                  name="isPublic"
-                  checked={values.isPublic}
-                  onChange={e =>
-                    setFieldValue('isPublic', e.target.checked)
-                  }
-                />
-                Gönderi herkese açık olsun
-              </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    name="isPublic"
+                    checked={values.isPublic}
+                    onChange={e =>
+                      setFieldValue("isPublic", e.target.checked)
+                    }
+                  />
+                  Gönderi herkese açık olsun
+                </label>
 
                 <div className="add-actions">
                   <button type="submit" className="btn-primary">
@@ -152,7 +190,7 @@ function OutfitForm({
         </Form>
       )}
     </Formik>
-  )
+  );
 }
 
-export default OutfitForm
+export default OutfitForm;
