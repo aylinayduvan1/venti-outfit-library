@@ -62,15 +62,23 @@ function OutfitCard({outfit, onClick, showFavorite = true, showActions = false}:
             </button>
         )}
 
-        {showActions && (
-              <div className='action-btn-container'>
+        {showActions && (         
+          <div>
+            {outfit.isPublic == false && (
+              <div className='lock-btn-container'>
+               <i className='pi pi-lock'/>
+              </div>
+            ) }
+            
+            <div className='action-btn-container'>
                 <button onClick={(e) => {
                         e.stopPropagation()
                         setMenuOpen(prev => !prev)
                 }}>
                   <i className='pi pi-ellipsis-v btn-ellipsis'/>
                 </button>
-              <div>
+            <div>  
+          </div>
 
               {/* MINI MENU */}
                 {menuOpen && (

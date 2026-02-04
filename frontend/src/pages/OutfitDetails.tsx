@@ -32,7 +32,10 @@ function OutfitDetails() {
         {/* SAĞ: Bilgiler */}
             <div className="flex flex-col gap-4">
                 <h1 className="text-3xl font-bold text-violet-900">
-                    {outfit.title}
+                    {outfit.title} {outfit.isPublic === false ? ( 
+                                        <i className='pi pi-lock'/>) : (
+                                        <i className='pi pi-lock-open'/>
+                                    )}
                 </h1>
                 <span className="category-tag">
                     #{outfit.category}
