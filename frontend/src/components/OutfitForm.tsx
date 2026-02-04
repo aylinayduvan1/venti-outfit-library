@@ -9,6 +9,7 @@ export interface OutfitFormValues {
   description: string
   categoryId: number
   image: File | null
+  isPublic: boolean
 }
 
 interface Props {
@@ -48,7 +49,7 @@ function OutfitForm({
       enableReinitialize
       onSubmit={onSubmit}
     >
-      {({ setFieldValue, errors, touched }) => (
+      {({ setFieldValue, errors, touched, values }) => (
         <Form>
           <div className="add-container">
             <div className="add-grid">
@@ -126,6 +127,18 @@ function OutfitForm({
                     }}
                   />
                 </label>
+                <label className="flex items-center gap-2 text-sm">
+
+                <input
+                  type="checkbox"
+                  name="isPublic"
+                  checked={values.isPublic}
+                  onChange={e =>
+                    setFieldValue('isPublic', e.target.checked)
+                  }
+                />
+                Gönderi herkese açık olsun
+              </label>
 
                 <div className="add-actions">
                   <button type="submit" className="btn-primary">

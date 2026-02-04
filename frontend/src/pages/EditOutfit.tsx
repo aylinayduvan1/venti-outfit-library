@@ -16,6 +16,7 @@ function EditOutfit() {
         description: outfit?.description ?? '',
         categoryId: outfit.categoryId,
         image: null, // edit’te zorunlu değil
+        isPublic: outfit.isPublic
       }
 
     const handleSubmit= async (values: OutfitFormValues) =>{

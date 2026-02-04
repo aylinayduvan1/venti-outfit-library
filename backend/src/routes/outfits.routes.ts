@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getOutfits, createOutfit, deleteOutfit, updateOutfit } from "../controllers/outfitControllers";
+import { getOutfits, createOutfit, deleteOutfit, updateOutfit, getMyOutfits } from "../controllers/outfitControllers";
 import multer from "multer";
 
 const router = Router();
@@ -15,6 +15,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get("/", getOutfits);
+router.get('/my', getMyOutfits)
 router.post("/", upload.single("image"), createOutfit);
 router.delete('/:id', deleteOutfit)
 router.put('/:id',upload.single('image'), updateOutfit);

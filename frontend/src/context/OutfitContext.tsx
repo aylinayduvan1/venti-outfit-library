@@ -4,14 +4,15 @@ import type { OutfitCreateInput } from '../types/outfit-create'
 import {fetchOutfits,
         createOutfit, 
         deleteOutfit as deleteOutfitService,
-        updateOutfit as updateOutfitService } 
+        updateOutfit as updateOutfitService, 
+        getMyOutfitsService} 
   from '../services/outfit.service'
-import type { OutfitUpdateInput } from '../types/outfit-update'
 import type { OutfitFormValues } from '../components/OutfitForm'
 
 interface OutfitContextType {
   outfits: Outfit[]
   loading: boolean
+  getMyOutfits: () => Promise<void> 
   addOutfit: (input: OutfitCreateInput) => Promise<void>
   deleteOutfit: (id: string) => Promise<void>
   updateOutfit: (id: string, input: OutfitFormValues) => Promise<void>
@@ -47,9 +48,14 @@ const updateOutfit = async (id: string, input: OutfitFormValues) => {
   )
 }
 
+const getMyOutfits = async () =>{
+  const data = await getMyOutfitsService()
+  setOutfits(data)
+}
+
 
   return (
-    <OutfitContext.Provider value={{ outfits, loading, addOutfit, deleteOutfit, updateOutfit }}>
+    <OutfitContext.Provider value={{ outfits, loading, addOutfit, deleteOutfit, updateOutfit, getMyOutfits }}>
       {children}
     </OutfitContext.Provider>
   )

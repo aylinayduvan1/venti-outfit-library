@@ -1,8 +1,12 @@
+import { useEffect } from 'react'
 import OutfitCard from '../components/OutfitCard'
 import { useOutfits } from '../context/OutfitContext'
 
 function ShowCase() {
-    const {loading, outfits} = useOutfits()
+    const {loading, outfits, getMyOutfits} = useOutfits()
+      useEffect(() => {
+      getMyOutfits()
+    }, [])
 
     if(loading) return <p>Yükleniyor..</p>
   return (

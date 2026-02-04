@@ -12,7 +12,7 @@ export const getOutfits = async (req: Request, res: Response) => {
 
 export const createOutfit = async (req: Request, res: Response) => {
   try {
-    const { title, description, categoryId, tags } = req.body;
+    const { title, description, categoryId, tags, isPublic, ownerId } = req.body;
     if (!req.file) return res.status(400).json({ message: "Görsel gerekli" });
 
     // categoryId'ye göre category stringini belirle
@@ -34,6 +34,8 @@ export const createOutfit = async (req: Request, res: Response) => {
       categoryId: Number(categoryId),
       tags: tags ? JSON.parse(tags) : [],
       image: `/uploads/${req.file.filename}`,
+      isPublic: isPublic === 'true',
+      ownerId: 'aylin123' // 👈 geçici
     });
 
     const saved = await newOutfit.save();
@@ -64,35 +66,63 @@ export const deleteOutfit = async (req: Request, res: Response) => {
   }
 }
 
-export const updateOutfit = async (req: Request, res:Response) => {
-  try{
-    const {id} = req.params
-    const {title, categoryId, description, tag} = req.body
+export const updateOutfit = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const { title, description, categoryId, isPublic } = req.body
+
+    const categoriesMap: Record<number, string> = {
+      1: 'school',
+      2: 'office',
+      3: 'daily',
+      4: 'sport',
+      5: 'night',
+    }
+
+    const category = categoriesMap[Number(categoryId)]
+    if (!category) {
+      return res.status(400).json({ message: 'Geçersiz categoryId' })
+    }
 
     const updateData: any = {
       title,
       description,
-      categoryId,
-      tag
+      categoryId: Number(categoryId),
+      category, // 👈 ZORUNLU
+      isPublic: isPublic === 'true',
     }
 
-    if(req.file){
+    if (req.file) {
       updateData.image = `/uploads/${req.file.filename}`
     }
 
     const updatedOutfit = await Outfit.findByIdAndUpdate(
       id,
       updateData,
-      {new: true}
+      { new: true }
     )
 
-    if(!updatedOutfit){
-      return res.status(404).json({message: 'Eksik veri'})
+    if (!updatedOutfit) {
+      return res.status(404).json({ message: 'Outfit bulunamadı' })
     }
 
     res.json(updatedOutfit)
-  }catch(err){
-    res.status(500).json({message: 'Sunucu Hatası', error: err})
+  } catch (err) {
+    res.status(500).json({ message: 'Sunucu hatası', error: err })
   }
+}
 
+  export const getMyOutfits = async (req: Request, res:Response) => {
+    try {
+      // ŞİMDİLİK FAKE USER
+      const ownerId = 'aylin123'
+
+      const outfits = await Outfit.find({
+        ownerId
+      }).sort({ createdAt: -1 })
+
+      res.json(outfits)
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch my outfits' })
+    }
 }

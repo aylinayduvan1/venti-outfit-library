@@ -11,16 +11,19 @@ function AddOutfit() {
     description: "",
     categoryId: 1,
     image: null,
+    isPublic: false
+  }
+
+  const onSubmit = async (values: OutfitFormValues) => {
+    await addOutfit(values)
+    navigate('/showcase')
   }
 
   return (
     <OutfitForm
       initialValues={initialValues}
       submitText="Kaydet"
-      onSubmit={async (values) => {
-        await addOutfit(values)
-        navigate("/")
-      }}
+      onSubmit={onSubmit}
     />
   )
 }

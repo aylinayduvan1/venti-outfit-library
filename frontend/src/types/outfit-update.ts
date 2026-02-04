@@ -4,4 +4,5 @@ export interface OutfitUpdateInput {
   description?: string
   categoryId: number
   image?: File | null
+  isPublic:boolean
 }

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import type { Outfit } from '../types/outfit'
 import type { OutfitCreateInput } from '../types/outfit-create'
-import type { OutfitUpdateInput } from '../types/outfit-update'
 import type { OutfitFormValues } from '../components/OutfitForm'
 
 const API_URL = 'http://localhost:4000/outfits'
@@ -19,6 +18,8 @@ export async function createOutfit(
   formData.append('title', input.title)
   formData.append('description', input.description ?? '')
   formData.append('categoryId', input.categoryId.toString())
+  formData.append('isPublic', String(input.isPublic))
+
 
   if (input.image) {
     formData.append('image', input.image)
@@ -44,6 +45,8 @@ export async function updateOutfit(
   formData.append("title", input.title)
   formData.append("description", input.description)
   formData.append("categoryId", input.categoryId.toString())
+  formData.append('isPublic', String(input.isPublic))
+
 
   if (input.image) {
     formData.append("image", input.image)
@@ -55,5 +58,10 @@ export async function updateOutfit(
     { headers: { "Content-Type": "multipart/form-data" } }
   )
 
+  return res.data
+}
+
+export async function getMyOutfitsService(): Promise<Outfit[]> {
+  const res = await axios.get<Outfit[]>(API_URL)
   return res.data
 }

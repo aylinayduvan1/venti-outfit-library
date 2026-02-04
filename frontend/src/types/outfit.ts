@@ -9,4 +9,5 @@ export interface Outfit {
   image: string;
   tags?: string[];
   createdAt?: string;
+  isPublic: boolean
 }
