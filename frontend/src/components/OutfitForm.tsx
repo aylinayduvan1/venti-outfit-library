@@ -13,7 +13,8 @@ export interface OutfitFormValues {
   categoryId: string;
   image: File | null;
   isPublic: boolean;
- tags: { id: string; name: string }[];}
+  tags: { id: string; name: string }[];
+}
 
 interface Props {
   initialValues: OutfitFormValues;

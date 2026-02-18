@@ -40,7 +40,7 @@ export const createOutfit = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Geçersiz kategori' })
     }
 
- const parsedTags: { id: string; name: string }[] = tags ? JSON.parse(tags) : [];
+    const parsedTags: { id: string; name: string }[] = tags ? JSON.parse(tags) : [];
 
     const tagIds: string[] = [];
 
@@ -98,12 +98,30 @@ export const deleteOutfit = async (req: Request, res: Response) => {
 export const updateOutfit = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const { title, description, category, tags ,isPublic } = req.body
+    const { title, description, category, tags, isPublic } = req.body
+
+    const parsedTags = tags ? JSON.parse(tags) : []
+
+    const tagIds: string[] = []
+
+    for (const tag of parsedTags) {
+      const isValidId = /^[0-9a-fA-F]{24}$/.test(tag.id)
+
+      if (isValidId) {
+        tagIds.push(tag.id)
+      } else {
+        const newTag = await Tags.create({
+          name: tag.name,
+          slug: tag.name.toLowerCase().replace(/\s+/g, '-')
+        })
+        tagIds.push(newTag._id.toString())
+      }
+    }
 
     const updateData: any = {
       title,
       description,
-      tags: tags ? JSON.parse(tags) : [], 
+      tags: tagIds, // 🔥 artık ObjectId array
       isPublic: isPublic === 'true',
     }
 
@@ -123,20 +141,21 @@ export const updateOutfit = async (req: Request, res: Response) => {
       id,
       updateData,
       { new: true }
-    ) 
-    .populate('category')
-    .populate('tags')
-    .sort({ createdAt: -1 })
+    )
+      .populate('category')
+      .populate('tags')
 
     if (!updatedOutfit) {
       return res.status(404).json({ message: 'Outfit bulunamadı' })
     }
 
     res.json(updatedOutfit)
+
   } catch (err) {
     res.status(500).json({ message: 'Sunucu hatası', error: err })
-  } 
+  }
 }
+
 
 export const getMyOutfits = async (req: Request, res:Response) => {
     try {
