@@ -46,7 +46,7 @@ function OutfitCard({outfit, onClick, showFavorite = true, showActions = false}:
          <img src={`http://localhost:4000${outfit.image}`} alt="" className="w-full h-full object-cover"/>
         </div>
         <div className='p-2 font-semibold text-violet-900 truncate'>{outfit.title}</div>
-        <div className='p-2 text-violet-800 italic'>#{outfit.category?.slug}</div>
+        <div className='p-2 text-violet-800 italic truncate'>{outfit.tags?.map(tag => ` #${tag.slug}`)}</div>
 
         {showFavorite && (
          <button

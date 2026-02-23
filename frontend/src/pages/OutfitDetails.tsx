@@ -35,10 +35,10 @@ function OutfitDetails() {
                                         <i className='pi pi-lock-open'/>
                                     )}
                 </h1>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                     {(outfit.tags ?? []).map(tag => (
                         <span key={tag._id} className="category-tag">
-                        #{tag.name}
+                        #{tag.slug}
                         </span>
                     ))}
                 </div>
