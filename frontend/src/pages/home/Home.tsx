@@ -1,9 +1,9 @@
 import './Home.css'
-import OutfitGrid from '../components/OutfitGrid'
-import CategoriesCard from '../components/CategoriesCard'
+import OutfitGrid from '../../components/outfits/OutfitGrid'
+import CategoriesCard from '../../components/outfits/CategoriesCard'
 import { useEffect, useState } from 'react'
-import { useOutfits } from '../context/OutfitContext'
-import { useCategories } from '../context/CategoryContext'
+import { useOutfits } from '../../context/OutfitContext'
+import { useCategories } from '../../context/CategoryContext'
 
 function Home() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('999') // Hepsi varsayılan

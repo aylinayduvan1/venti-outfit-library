@@ -1,7 +1,7 @@
-import OutfitGrid from "../components/OutfitGrid"
-import { useAuth } from "../context/AuthContext"
-import { useFavorites } from "../context/FavoritesContext"
-import { useOutfits } from "../context/OutfitContext"
+import OutfitGrid from "../../components/outfits/OutfitGrid"
+import { useAuth } from "../../context/AuthContext"
+import { useFavorites } from "../../context/FavoritesContext"
+import { useOutfits } from "../../context/OutfitContext"
 import { useEffect } from "react"
 import './Favorites.css'
 

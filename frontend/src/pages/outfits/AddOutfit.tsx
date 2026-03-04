@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import { useOutfits } from "../context/OutfitContext"
-import OutfitForm, {type OutfitFormValues} from "../components/OutfitForm"
+import { useOutfits } from "../../context/OutfitContext"
+import OutfitForm, {type OutfitFormValues} from "../../components/outfits/OutfitForm"
 
 function AddOutfit() {
   const navigate = useNavigate()

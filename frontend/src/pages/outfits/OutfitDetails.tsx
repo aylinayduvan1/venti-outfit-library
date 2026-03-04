@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import './OutfitDetail.css'
-import { useFavorites } from "../context/FavoritesContext";
-import { useOutfits } from "../context/OutfitContext";
+import { useFavorites } from "../../context/FavoritesContext";
+import { useOutfits } from "../../context/OutfitContext";
 
 function OutfitDetails() {
     const {id} = useParams();

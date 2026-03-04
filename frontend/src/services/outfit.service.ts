@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { Outfit } from '../types/outfit'
 import type { OutfitCreateInput } from '../types/outfit-create'
-import type { OutfitFormValues } from '../components/OutfitForm'
+import type { OutfitFormValues } from '../components/outfits/OutfitForm'
 
 const API_URL = 'http://localhost:4000/outfits'
 

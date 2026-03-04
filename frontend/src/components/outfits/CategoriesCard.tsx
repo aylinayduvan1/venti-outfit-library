@@ -1,4 +1,4 @@
-import type { Category } from '../types/categories'
+import type { Category } from '../../types/categories'
 import './CategoriesCard.css'
 
 interface Props {

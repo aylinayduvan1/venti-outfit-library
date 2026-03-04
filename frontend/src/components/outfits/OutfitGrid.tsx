@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { Outfit } from '../types/outfit'
+import type { Outfit } from '../../types/outfit'
 import OutfitCard from './OutfitCard';
 import './OutfitGrid.css';
 

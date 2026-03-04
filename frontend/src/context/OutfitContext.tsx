@@ -8,7 +8,7 @@ import {fetchOutfits,
         updateOutfit as updateOutfitService, 
         fetchPublicOutfits as fetchPublicOutfitsService} 
   from '../services/outfit.service'
-import type { OutfitFormValues } from '../components/OutfitForm'
+import type { OutfitFormValues } from '../components/outfits/OutfitForm'
 
 interface OutfitContextType {
   outfits: Outfit[]

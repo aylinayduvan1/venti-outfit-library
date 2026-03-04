@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./OutfitForm.css";
-import { useCategories } from "../context/CategoryContext";
-import { useTags } from "../context/TagContext";
+import { useCategories } from "../../context/CategoryContext";
+import { useTags } from "../../context/TagContext";
 import CreatableSelect from "react-select/creatable";
 
 
