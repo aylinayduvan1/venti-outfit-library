@@ -8,10 +8,12 @@ import { FavoritesProvider } from './context/FavoritesContext'
 import { OutfitProvider } from './context/OutfitContext'
 import { CategoryProvider } from './context/CategoryContext'
 import { TagProvider } from './context/TagContext'
+import { AuthProvider } from './context/AuthContext'
 
 createRoot(document.getElementById('root')!).render(
   //<StrictMode>
   <BrowserRouter>
+  <AuthProvider>
     <FavoritesProvider>
       <TagProvider>
       <CategoryProvider>
@@ -21,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
       </CategoryProvider>
       </TagProvider>
     </FavoritesProvider>
+    </AuthProvider>
   </BrowserRouter>
 //</StrictMode>
 

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getOutfits, createOutfit, deleteOutfit, updateOutfit, getMyOutfits } from "../controllers/outfitControllers";
 import multer from "multer";
+import { authMiddleware } from "../middleware/auth";
 
 const router = Router();
 
@@ -14,11 +15,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.get("/", getOutfits);
-router.get('/my', getMyOutfits)
-router.post("/", upload.single("image"), createOutfit);
+router.get("/",  getOutfits);
+router.get('/me', authMiddleware, getMyOutfits)
+router.post("/", authMiddleware, upload.single("image"), createOutfit);
 router.delete('/:id', deleteOutfit)
-router.put('/:id',upload.single('image'), updateOutfit);
+router.put('/:id',   upload.single('image'), updateOutfit);
 
 
 export default router;

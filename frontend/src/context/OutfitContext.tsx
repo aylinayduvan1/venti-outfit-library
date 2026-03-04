@@ -27,7 +27,7 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOutfits()
+    fetchPublicOutfitsService('999')
       .then(setOutfits)
       .finally(() => setLoading(false))
   }, [])
@@ -50,10 +50,12 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
     )
   }
 
-  const getMyOutfits = async () =>{
-    const data = await getMyOutfitsService()
-    setOutfits(data)
-  }
+const getMyOutfits = async () => {
+  setLoading(true)
+  const data = await getMyOutfitsService() // artık token header var
+  setOutfits(data)
+  setLoading(false)
+}
 
 const fetchPublicOutfits = async (categoryId: string | null) => {
   setLoading(true)

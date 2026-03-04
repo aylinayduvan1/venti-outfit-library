@@ -5,6 +5,21 @@ import type { OutfitFormValues } from '../components/OutfitForm'
 
 const API_URL = 'http://localhost:4000/outfits'
 
+// token helper
+const getToken = () => localStorage.getItem('token') || ''
+
+const getAuthHeaders = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`
+  }
+})
+
+// Örnek: getMyOutfitsService
+export async function getMyOutfitsService(): Promise<Outfit[]> {
+  const res = await axios.get<Outfit[]>(`${API_URL}/me`, getAuthHeaders());
+  return res.data;
+}
+
 export async function fetchOutfits(): Promise<Outfit[]> {
   const res = await axios.get<Outfit[]>(API_URL)
   return res.data
@@ -27,14 +42,17 @@ export async function createOutfit(
   }
 
   const res = await axios.post<Outfit>(API_URL, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: {
+      ...getAuthHeaders().headers, // Authorization header 
+      'Content-Type': 'multipart/form-data' 
+    },
   })
 
   return res.data
 }
 
 export async function deleteOutfit(id: string): Promise<void>{
-  await axios.delete(`${API_URL}/${id}`)
+  await axios.delete(`${API_URL}/${id}`, getAuthHeaders())
 }
 
 export async function updateOutfit(
@@ -55,19 +73,20 @@ export async function updateOutfit(
     formData.append("image", input.image)
   }
 
-  const res = await axios.put<Outfit>(
-    `${API_URL}/${id}`,
-    formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
-  )
+   const res = await axios.put(`${API_URL}/${id}`, formData, {
+    headers: {
+      ...getAuthHeaders().headers,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 
   return res.data
 }
 
-export async function getMyOutfitsService(): Promise<Outfit[]> {
+/*export async function getMyOutfitsService(): Promise<Outfit[]> {
   const res = await axios.get<Outfit[]>(API_URL)
   return res.data
-}
+}*/
 
 export async function fetchPublicOutfits(
   categoryId: string | null

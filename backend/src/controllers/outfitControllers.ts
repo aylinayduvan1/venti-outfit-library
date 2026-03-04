@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { Outfit } from '../models/Outfit'
 import { Category } from '../models/Category'
 import { Tags } from '../models/Tags'
+import { AuthRequest } from '../middleware/auth';
 
 export const getOutfits = async (req: Request, res: Response) => {
   try {
@@ -30,7 +31,7 @@ function generateSlug(name: string) {
   return name.toLowerCase().replace(/\s+/g, '-'); 
 }
 
-export const createOutfit = async (req: Request, res: Response) => {
+export const createOutfit = async (req: AuthRequest, res: Response) => {
   try {
     const { title, description, category, tags, isPublic, ownerId } = req.body;
     if (!req.file) return res.status(400).json({ message: "Görsel gerekli" });
@@ -64,8 +65,9 @@ export const createOutfit = async (req: Request, res: Response) => {
       tags: tagIds,
       image: `/uploads/${req.file.filename}`,
       isPublic: isPublic === 'true',
-      ownerId: 'aylin123' //  geçici
+      ownerId: req.userId
     });
+    console.log(req.userId)
 
     const saved = await newOutfit.save();
     res.status(201).json(saved);
@@ -157,10 +159,9 @@ export const updateOutfit = async (req: Request, res: Response) => {
 }
 
 
-export const getMyOutfits = async (req: Request, res:Response) => {
+export const getMyOutfits = async (req: AuthRequest, res:Response) => {
     try {
-      // ŞİMDİLİK FAKE USER
-      const ownerId = 'aylin123'
+      const ownerId = req.userId
 
       const outfits = await Outfit.find({ ownerId })
       .populate('category')
