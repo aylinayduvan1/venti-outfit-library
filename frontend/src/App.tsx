@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/home/Home';
-import Favorites from './pages/favorite/Favorites';
-import Navbar from './components/layout/Navbar';
-import OutfitDetails from './pages/outfits/OutfitDetails';
-import AddOutfit from './pages/outfits/AddOutfit';
-import ShowCase from './pages/showcase/ShowCase';
-import EditOutfit from './pages/outfits/EditOutfit';
-import Login from './pages/auth/Login';
-import PrivateRoute from './components/common/ProtectedRoute';
+import Home from 'pages/home/Home';
+import Favorites from 'pages/favorite/Favorites';
+import Navbar from 'components/layout/Navbar';
+import OutfitDetails from 'pages/outfits/OutfitDetails';
+import AddOutfit from 'pages/outfits/AddOutfit';
+import ShowCase from 'pages/showcase/ShowCase';
+import EditOutfit from 'pages/outfits/EditOutfit';
+import Login from 'pages/auth/Login';
+import PrivateRoute from 'components/common/ProtectedRoute';
 
 function App() {
   return (

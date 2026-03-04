@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import OutfitCard from '../../components/outfits/OutfitCard'
-import { useOutfits } from '../../context/OutfitContext'
+import OutfitCard from 'components/outfits/OutfitCard'
+import { useOutfits } from 'context/OutfitContext'
 
 function ShowCase() {
     const {loading, outfits, getMyOutfits} = useOutfits()

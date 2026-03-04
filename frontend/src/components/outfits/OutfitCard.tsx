@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFavorites } from '../../context/FavoritesContext';
-import { useOutfits } from '../../context/OutfitContext';
-import type { Outfit } from '../../types/outfit'
+import { useFavorites } from 'context/FavoritesContext';
+import { useOutfits } from 'context/OutfitContext';
+import type { Outfit } from 'types/outfit'
 import './OutfitCard.css'
 import Modal from '../common/Modal';
 import { useNavigate } from 'react-router-dom';

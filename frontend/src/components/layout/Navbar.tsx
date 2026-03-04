@@ -1,6 +1,6 @@
 import './Navbar.css'
 import { Link } from 'react-router-dom'
-import { useFavorites } from '../../context/FavoritesContext'
+import { useFavorites } from 'context/FavoritesContext'
 
 function Navbar() {
   const {favorites} = useFavorites();

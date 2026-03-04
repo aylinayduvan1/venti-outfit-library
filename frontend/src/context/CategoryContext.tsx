@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import type { Category } from '../types/categories'
-import { fetchCategories } from '../services/category.service'
+import type { Category } from 'types/categories'
+import { fetchCategories } from 'services/category.service'
 
 interface CategoryContextType {
   categories: Category[]
