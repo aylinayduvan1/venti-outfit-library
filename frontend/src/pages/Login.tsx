@@ -34,28 +34,22 @@ function Login() {
   };
 
   return (
-    <div className="login-page grid grid-cols-1 md:grid-cols-6">
-     <div className="login-banner col-span-1 md:col-span-2">
-
-      {/* Arka dekoratif büyük yazı */}
-      <h1 className="absolute text-[140px] font-bold 
-                    text-white/10 select-none">
+    <div className="login-page">
+     <div className="login-banner">
+      <h1 className="banner-back-text">
         VENTI
       </h1>
-
-      {/* İçerik */}
-      <div className="z-10 text-center px-8">
-        <h2 className="text-3xl font-semibold text-white mb-4">
+      <div className="banner-title-container">
+        <h2 className="banner-title">
           Style, Simplified.
         </h2>
-
-        <p className="text-white/80 leading-relaxed">
+        <p className="banner-content">
           Kombinlerini oluştur, planla ve tekrar etmeden stilini yönet.  
           Venti ile dolabın artık dijital.
         </p>
       </div>
     </div>
-      <div className='login-card-container  col-span-4'>
+      <div className='login-card-container'>
       <div className="login-card">
         <h2>Giriş Yap</h2>
         <form onSubmit={handleSubmit} className="login-form">
@@ -85,7 +79,7 @@ function Login() {
 
           <button type="submit" className="login-btn">Giriş Yap</button>
           <p className='text-blue-600 text-center mt-2'>Hesabın yok mu  
-            <a className='underline ml-2' href="/">Kayıt Ol</a>
+            <a className='underline ml-2 font-semibold' href="/">Kayıt Ol</a>
           </p>
         </form>
     

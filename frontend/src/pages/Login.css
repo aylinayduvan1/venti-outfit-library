@@ -1,21 +1,39 @@
 .login-page{
-@apply  bg-slate-50 min-h-screen; 
+@apply  grid grid-cols-1 md:grid-cols-6 bg-slate-50 min-h-screen; 
 }
 
 .login-banner{
-    @apply min-h-[40vh] md:min-h-screen
+    @apply col-span-1 md:col-span-2 min-h-[40vh] md:min-h-screen
                 bg-gradient-to-br 
                 from-[#dfcaff] 
-                to-violet-600 
+                to-violet-700 
                 relative 
                 flex 
                 items-center 
                 justify-center 
-                overflow-hidden ;
+                overflow-hidden;
 }
 
+.banner-back-text{
+    @apply absolute text-[140px] font-bold 
+                    text-white/10 select-none;
+}
+
+.banner-title-container{
+    @apply z-10 text-center px-8;
+}
+
+.banner-title{
+    @apply text-3xl font-semibold text-white mb-4;
+}
+
+.banner-content{
+    @apply text-white/80 leading-relaxed;
+}
+
+
 .login-card-container{
-    @apply bg-slate-50 p-2 rounded-lg flex justify-center items-center;
+    @apply col-span-4 bg-slate-50 p-2 rounded-lg flex justify-center items-center;
 }
 
 .login-card{
@@ -23,7 +41,7 @@
 }
 
 .login-card h2 {
-    @apply text-center mb-10 text-violet-500 font-bold italic text-2xl;
+    @apply text-center mb-10 text-violet-700 font-bold italic text-2xl;
 }
 
 .input-container {
@@ -39,12 +57,12 @@
 }
 
 .login-btn {
-    @apply  w-full p-2 mt-1 bg-violet-600 text-white border-none rounded-md font-semibold cursor-pointer transition-colors duration-200;
+    @apply  w-full p-2 mt-1 bg-violet-700 text-white border-none rounded-md font-semibold cursor-pointer transition-colors duration-200;
 
 }
 
 .login-btn:hover {
-  @apply bg-violet-700;
+  @apply bg-violet-500;
 }
 .error {
     @apply text-red-800 mb-1 text-start;
