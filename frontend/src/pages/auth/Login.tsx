@@ -2,7 +2,7 @@ import './Login.css'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios";
+import { login as loginService } from "../../services/authServices";
 
 function Login() {
   const { login } = useAuth();
@@ -17,13 +17,14 @@ function Login() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
+      const response = await loginService({
         email,
         password,
       });
 
       // Context ve localStorage'ı güncelle
-      login(response.data.token, response.data.user.id);
+     // login(response.data.token, response.data.user.id);
+     login(response.token, response.user.id);
 
       // Başarılı login sonrası ana sayfaya yönlendir
       navigate("/");
@@ -79,7 +80,7 @@ function Login() {
 
           <button type="submit" className="login-btn">Giriş Yap</button>
           <p className='text-blue-600 text-center mt-2'>Hesabın yok mu  
-            <a className='underline ml-2 font-semibold' href="/">Kayıt Ol</a>
+            <a className='underline ml-2 font-semibold' href="/register">Kayıt Ol</a>
           </p>
         </form>
     

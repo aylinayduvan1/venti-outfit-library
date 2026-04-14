@@ -8,6 +8,7 @@ import ShowCase from 'pages/showcase/ShowCase';
 import EditOutfit from 'pages/outfits/EditOutfit';
 import Login from 'pages/auth/Login';
 import PrivateRoute from 'components/common/ProtectedRoute';
+import Register from 'pages/auth/Register';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         {/* Full-page login, navbar yok */}
         <Route path="/login" element={<Login />} />
+        <Route path='/register' element={<Register/>}  />
 
         {/* Public ana sayfa */}
         <Route path="/" element={<><Navbar /><Home /></>} />
