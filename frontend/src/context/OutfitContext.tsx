@@ -27,6 +27,7 @@ export function OutfitProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+
     fetchPublicOutfitsService('999')
       .then(setOutfits)
       .finally(() => setLoading(false))

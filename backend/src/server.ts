@@ -9,6 +9,7 @@ import path from "path";
 import categoryRoutes from "./routes/categoryRoutes";
 import getTags from './routes/tag.routes'
 import authRoutes from './routes/auth.routes'
+import favoritesRoutes from "./routes/favoritesRoutes";
 
 
 const app = express();
@@ -28,8 +29,6 @@ app.use("/outfits", outfitRoutes);
 app.use('/categories', categoryRoutes)
 app.use('/tags', getTags )
 app.use('/auth', authRoutes)
-
-// Test route
-app.get("/test", (req, res) => res.json({ message: "Backend çalışıyor 🚀" }));
+app.use("/favorites", favoritesRoutes);
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
