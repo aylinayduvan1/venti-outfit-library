@@ -59,6 +59,7 @@ const getMyOutfits = async () => {
 }
 
 const fetchPublicOutfits = async (categoryId: string | null) => {
+  setOutfits([]);
   setLoading(true)
   const data = await fetchPublicOutfitsService(categoryId)
   setOutfits(data)
