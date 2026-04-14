@@ -36,7 +36,9 @@ export const createUser = async (req: Request, res: Response) => {
             user:{
                 id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                surname:user.surname,
+                name: user.name
             }
         });
 
@@ -72,6 +74,8 @@ export const loginUser =  async (req: Request, res: Response) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        surname:user.surname,
+        name: user.name
       },
     });
 

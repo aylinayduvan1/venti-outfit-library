@@ -8,9 +8,11 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ children }: PrivateRouteProps) {
-  const { token } = useAuth()
+  const { loading, loggedIn } = useAuth();
 
-  if (!token) {
+  if(loading) return <p>Yükleniyor..</p>
+
+  if (!loggedIn) {
     // Token yoksa login sayfasına yönlendir
     return <Navigate to="/login" replace />
   }

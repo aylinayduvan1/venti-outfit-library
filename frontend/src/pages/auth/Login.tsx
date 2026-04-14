@@ -24,7 +24,7 @@ function Login() {
 
       // Context ve localStorage'ı güncelle
      // login(response.data.token, response.data.user.id);
-     login(response.token, response.user.id);
+     login(response.token, response.user);
 
       // Başarılı login sonrası ana sayfaya yönlendir
       navigate("/");

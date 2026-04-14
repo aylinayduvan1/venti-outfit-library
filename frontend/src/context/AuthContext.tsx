@@ -1,45 +1,52 @@
 // context/AuthContext.tsx
 import { createContext, useContext, useState, useEffect } from "react";
+import type { User } from "types/user";
 
 interface AuthContextType {
   token: string | null;
-  userId: string | null;
-  login: (token: string, userId: string) => void;
+  user: User | null;
+  login: (token: string, user: User) => void;
   logout: () => void;
   loggedIn: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true) ;
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    const storedUserId = localStorage.getItem("userId");
-    if (storedToken && storedUserId) {
+    const storedUser = localStorage.getItem("user");
+    if (storedToken && storedUser) {
       setToken(storedToken);
-      setUserId(storedUserId);
+      setUser(JSON.parse(storedUser));
     }
+
+    setLoading(false)
   }, []);
 
-  const login = (t: string, id: string) => {
-    setToken(t);
-    setUserId(id);
-    localStorage.setItem("token", t);
-    localStorage.setItem("userId", id);
-  };
+  const login = (t: string, user: User) => {
+  setToken(t);
+  setUser(user);
 
-  const logout = () => {
-    setToken(null);
-    setUserId(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-  };
+  localStorage.setItem("token", t);
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+ const logout = () => {
+  setToken(null);
+  setUser(null);
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+};
 
   return (
-    <AuthContext.Provider value={{ token, userId ,login, logout, loggedIn: !!token }}>
+    <AuthContext.Provider value={{ token, user ,login, logout, loggedIn: !!token , loading}}>
       {children}
     </AuthContext.Provider>
   );

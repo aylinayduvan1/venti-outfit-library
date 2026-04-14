@@ -37,7 +37,7 @@ function Register() {
         });
 
       // Context ve localStorage'ı güncelle
-      login(response.token, response.user.id);
+      login(response.token, response.user);
 
       // Başarılı login sonrası ana sayfaya yönlendir
       navigate("/");

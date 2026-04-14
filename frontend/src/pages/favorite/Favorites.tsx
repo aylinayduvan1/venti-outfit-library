@@ -8,7 +8,7 @@ import './Favorites.css'
 function Favorites() {
   const { favorites } = useFavorites()
   const { outfits, getMyOutfits } = useOutfits()
-  const { userId } = useAuth()
+  const { user} = useAuth()
 
   // Mount olduğunda sadece kendi outfitlerini çekiyoruz
   useEffect(() => {
@@ -18,7 +18,7 @@ function Favorites() {
   // Sadece giriş yapan kullanıcının favorileri
   const favoriteOutfits = outfits.filter(o =>
     favorites.includes(o._id) &&
-    o.ownerId === userId
+    o.ownerId === user?.id
   )
 
   if (favoriteOutfits.length === 0) {
