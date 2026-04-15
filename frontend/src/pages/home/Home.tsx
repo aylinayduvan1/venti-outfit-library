@@ -8,7 +8,7 @@ import { useCategories } from 'context/CategoryContext'
 function Home() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('999') // Hepsi varsayılan
 
-  const { outfits, fetchPublicOutfits } = useOutfits()
+  const { outfits, fetchPublicOutfits, loading } = useOutfits()
   const { categories, loading: categoriesLoading } = useCategories()
 
   const allCategories = [
@@ -22,15 +22,21 @@ function Home() {
   useEffect(() => {
   if (selectedCategoryId === '999') {
     fetchPublicOutfits(null)
+
   } else {
     fetchPublicOutfits(selectedCategoryId)
   }
+
+
 }, [selectedCategoryId])
 
   if (categoriesLoading) {
     return <p className="text-center mt-20">Kategoriler yükleniyor…</p>
   }
 
+if (loading) {
+  return <p className="text-center mt-20">Yükleniyor...</p>
+}
   return (
     <div className="home-container">
       <CategoriesCard
