@@ -10,8 +10,8 @@ export interface IOutfit {
   }
   image: string
   tags: Types.ObjectId[]
-  ownerId: string
-  isPublic: boolean
+  owner: Types.ObjectId
+,  isPublic: boolean
 }
 
 const OutfitSchema = new Schema<IOutfit>(
@@ -25,7 +25,11 @@ const OutfitSchema = new Schema<IOutfit>(
     },
     image: { type: String, required: true },
     tags: [{type: Schema.Types.ObjectId, ref:'Tag'}],
-    ownerId: { type: String, required: true },
+    owner: {
+  type: Schema.Types.ObjectId,
+  ref: 'User',
+  required: true
+},
     isPublic: { type: Boolean, default: false }
   },
   { timestamps: true }

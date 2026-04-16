@@ -10,5 +10,5 @@ export interface Outfit {
   tags?: string[];
   createdAt?: string;
   isPublic:boolean
-  ownerId: string
+  owner: string
 }
