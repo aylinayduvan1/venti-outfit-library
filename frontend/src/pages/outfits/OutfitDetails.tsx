@@ -20,12 +20,16 @@ function OutfitDetails() {
     <div className="p-6 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* SOL: Görsel */}
-            <div className="w-full">
+            <div className="w-full relative">
                 <img
                     src={`http://localhost:4000${outfit.image}`}
                     alt={outfit.title}
                     className="detail-img"
                 />
+
+                 <p className="detail-username">
+                   @{outfit.owner.username}
+                </p>
             </div>
         {/* SAĞ: Bilgiler */}
             <div className="flex flex-col gap-4">
@@ -35,6 +39,7 @@ function OutfitDetails() {
                                         <i className='pi pi-lock-open'/>
                                     )}
                 </h1>
+                
                 <div className="flex gap-2 flex-wrap">
                     {(outfit.tags ?? []).map(tag => (
                         <span key={tag._id} className="category-tag">
