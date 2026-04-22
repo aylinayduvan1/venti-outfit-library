@@ -10,7 +10,7 @@ function ShowCase() {
     getMyOutfits();
   }, []);
 
-  if (loading) return <p>Yükleniyor..</p>;
+  if (loading) return <p className='text-center'>Yükleniyor..</p>;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-[92%] sm:w-4/5 mx-auto mt-6">
