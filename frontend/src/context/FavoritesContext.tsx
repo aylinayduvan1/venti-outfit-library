@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState, useContext } from "react";
+import { useAuth } from "./AuthContext";
 
 interface FavoritesContextType {
   favorites: string[];
@@ -31,8 +32,8 @@ api.interceptors.request.use((config) => {
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
-  // 📥 FAVORİLERİ ÇEK
   const fetchFavorites = async () => {
     try {
       const res = await api.get("/favorites");
@@ -45,10 +46,14 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    fetchFavorites();
-  }, []);
+    if(user){
+      fetchFavorites();
+    }else{
+      setLoading(true);
+      setFavorites([]);
+    }
+  }, [user]);
 
-  // ❤️ TOGGLE FAVORITE
   const toggleFavorite = async (id: string) => {
     const isFav = favorites.includes(id);
 
